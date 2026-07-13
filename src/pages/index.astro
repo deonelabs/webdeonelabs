@@ -1,0 +1,431 @@
+---
+import '../styles/global.css';
+
+// TODO: cambiar al número comercial definitivo de DeOne Labs
+const WHATSAPP = '573108870800';
+const wa = (msg) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+
+const servicios = [
+  {
+    nombre: 'Landing Express',
+    desc: 'Tu negocio con página propia en una semana. Hasta 5 secciones, lista para vender.',
+    precio: '$390.000',
+    mes: '$39.000/mes',
+    mercado: 'Otros cobran $500.000 – $1.200.000 + hosting aparte',
+    incluye: ['Dominio .com y SSL incluidos', 'Hosting y soporte incluidos', '1 cambio de contenido al mes', 'Entrega en 5–7 días'],
+    icon: 'bolt',
+  },
+  {
+    nombre: 'Web Corporativa',
+    desc: 'Sitio completo de 5 a 8 páginas para empresas que quieren verse serias en internet.',
+    precio: '$990.000',
+    mes: '$59.000/mes',
+    mercado: 'Otros cobran $2.500.000 – $6.000.000',
+    incluye: ['5–8 páginas + blog', 'SEO básico para Google', 'Correo de contacto', 'Dominio, SSL y hosting incluidos'],
+    icon: 'building',
+  },
+  {
+    nombre: 'Tienda Online',
+    desc: 'Vende por internet con pagos en línea: Wompi, MercadoPago o contraentrega.',
+    precio: '$1.690.000',
+    mes: '$129.000/mes',
+    mercado: 'Otros cobran $1.800.000 – $15.000.000',
+    incluye: ['Hasta 100 productos', 'Pasarela de pagos colombiana', 'Panel para administrar tú mismo', 'Capacitación incluida'],
+    icon: 'cart',
+  },
+  {
+    nombre: 'Correo Corporativo',
+    desc: 'Deja de escribir desde @gmail.com: correo con el nombre de tu empresa.',
+    precio: 'Sin costo de instalación',
+    mes: '$20.000/usuario/mes',
+    mercado: 'Google Workspace cuesta ~$27.000',
+    incluye: ['tunombre@tuempresa.com', '50 GB por buzón', 'Webmail + celular', 'Migración incluida'],
+    icon: 'mail',
+  },
+  {
+    nombre: 'Automatizaciones',
+    desc: 'Que el sistema trabaje por ti: pedidos, recordatorios y reportes automáticos.',
+    precio: '$350.000/flujo',
+    mes: '$49.000/mes',
+    mercado: 'Por fuera se cotiza en $1.000.000+',
+    incluye: ['Pedidos → WhatsApp', 'Recordatorios de citas', 'Reportes a Excel automáticos', 'A tu medida'],
+    icon: 'gears',
+  },
+  {
+    nombre: 'Pack Emprendedor',
+    desc: 'Todo lo que necesita un negocio que arranca: página + correo + bot de WhatsApp.',
+    precio: '$1.590.000',
+    mes: '$189.000/mes',
+    mercado: 'Por separado: $1.880.000 + $258.000/mes',
+    incluye: ['Landing Express completa', '2 correos corporativos', 'Bot de WhatsApp básico', 'Ahorra $290.000 + $69.000/mes'],
+    icon: 'rocket',
+    destacado: true,
+  },
+];
+
+const iconPaths = {
+  bolt: 'M13 10V3L4 14h7v7l9-11h-7z',
+  building:
+    'M3 21h18M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16M9 8h1m4 0h1M9 12h1m4 0h1M9 16h1m4 0h1',
+  cart: 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.3 2.3c-.6.6-.2 1.7.7 1.7H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z',
+  mail: 'M3 8l7.9 5.3a2 2 0 002.2 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+  gears:
+    'M10.3 4.3a1.7 1.7 0 013.4 0 1.7 1.7 0 002.6 1.1 1.7 1.7 0 012.4 2.4 1.7 1.7 0 001 2.5 1.7 1.7 0 010 3.4 1.7 1.7 0 00-1 2.5 1.7 1.7 0 01-2.4 2.4 1.7 1.7 0 00-2.6 1 1.7 1.7 0 01-3.4 0 1.7 1.7 0 00-2.6-1 1.7 1.7 0 01-2.4-2.4 1.7 1.7 0 00-1-2.5 1.7 1.7 0 010-3.4 1.7 1.7 0 001-2.5 1.7 1.7 0 012.4-2.4 1.7 1.7 0 002.6-1.1zM15 12a3 3 0 11-6 0 3 3 0 016 0z',
+  rocket:
+    'M15.6 3.4c1.9-.6 3.7-.6 5 0 .6 1.3.6 3.1 0 5-1 2.7-3.2 5.6-6.6 7.7l-3.1 3.1a1 1 0 01-1.6-.3l-1.5-3.3-3.3-1.5a1 1 0 01-.3-1.6l3.1-3.1c2.1-3.4 5-5.6 7.7-6.6zM6 15l-2 5 5-2m6-7a1.5 1.5 0 100-3 1.5 1.5 0 000 3z',
+  check: 'M5 13l4 4L19 7',
+  whatsapp:
+    'M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm4.8 13.9c-.2.6-1.2 1.1-1.7 1.2-.4 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c0 .2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.2 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2.1 1c.3.2.5.3.6.4 0 .1 0 .8-.4 1.4z',
+};
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DeOne Labs — Páginas web, bots de WhatsApp con IA y más para tu negocio</title>
+    <meta
+      name="description"
+      content="Páginas web todo incluido desde $390.000, bots de WhatsApp con inteligencia artificial, correo corporativo y automatizaciones para pymes en Colombia. Sin costos escondidos."
+    />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>" />
+  </head>
+  <body class="min-h-screen antialiased">
+    <!-- Nav -->
+    <header class="fixed inset-x-4 top-4 z-50">
+      <nav
+        class="mx-auto flex max-w-6xl items-center justify-between rounded-2xl border border-white/10 bg-ink/80 px-5 py-3 backdrop-blur-md"
+        aria-label="Principal"
+      >
+        <a href="#" class="font-heading text-lg font-bold tracking-tight text-white">
+          <span class="text-primary-soft">◆</span> DeOne Labs
+        </a>
+        <div class="hidden items-center gap-6 text-sm text-gray-300 md:flex">
+          <a href="#servicios" class="transition-colors duration-200 hover:text-white">Servicios</a>
+          <a href="#bot" class="transition-colors duration-200 hover:text-white">Bot con IA</a>
+          <a href="#portafolio" class="transition-colors duration-200 hover:text-white">Portafolio</a>
+          <a href="#preguntas" class="transition-colors duration-200 hover:text-white">Preguntas</a>
+        </div>
+        <a
+          href={wa('Hola DeOne Labs, quiero información sobre sus servicios')}
+          class="cursor-pointer rounded-xl bg-wa px-4 py-2 text-sm font-bold text-ink transition-colors duration-200 hover:bg-green-400"
+          target="_blank"
+          rel="noopener"
+        >
+          Escríbenos
+        </a>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="relative overflow-hidden px-4 pb-20 pt-36 md:pt-44">
+      <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div class="absolute -top-32 left-1/2 h-96 w-[42rem] -translate-x-1/2 rounded-full bg-primary/25 blur-[120px]"></div>
+        <div class="absolute right-0 top-40 h-72 w-72 rounded-full bg-wa/10 blur-[100px]"></div>
+      </div>
+      <div class="relative mx-auto max-w-6xl text-center">
+        <p class="mb-5 inline-block rounded-full border border-primary/40 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary-soft">
+          Promo de lanzamiento: precio especial para los primeros 10 clientes
+        </p>
+        <h1 class="mx-auto max-w-4xl text-4xl font-bold leading-tight tracking-tight text-white md:text-6xl">
+          Tu negocio en internet, <span class="text-primary-soft">todo incluido</span>, sin letra pequeña
+        </h1>
+        <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-gray-300">
+          Páginas web desde <strong class="text-white">$390.000</strong>, bots de WhatsApp con inteligencia
+          artificial que venden por ti 24/7, correo corporativo y automatizaciones. Dominio, hosting,
+          SSL y soporte <strong class="text-white">incluidos en un solo precio</strong>.
+        </p>
+        <div class="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <a
+            href={wa('Hola DeOne Labs, quiero cotizar mi página web')}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-wa px-7 py-3.5 text-base font-bold text-ink transition-colors duration-200 hover:bg-green-400"
+          >
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={iconPaths.whatsapp}></path></svg>
+            Cotiza gratis por WhatsApp
+          </a>
+          <a
+            href="#servicios"
+            class="cursor-pointer rounded-xl border border-white/15 px-7 py-3.5 text-base font-semibold text-white transition-colors duration-200 hover:bg-white/5"
+          >
+            Ver precios
+          </a>
+        </div>
+        <dl class="mx-auto mt-14 grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-3">
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
+            <dt class="text-sm text-gray-400">Entrega de tu página</dt>
+            <dd class="mt-1 font-heading text-2xl font-bold text-white">5–7 días</dd>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
+            <dt class="text-sm text-gray-400">Costos escondidos</dt>
+            <dd class="mt-1 font-heading text-2xl font-bold text-white">Cero</dd>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
+            <dt class="text-sm text-gray-400">Si no te gusta el diseño</dt>
+            <dd class="mt-1 font-heading text-2xl font-bold text-white">Te devolvemos la plata</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios" class="scroll-mt-24 px-4 py-20">
+      <div class="mx-auto max-w-6xl">
+        <h2 class="text-center text-3xl font-bold tracking-tight text-white md:text-4xl">
+          Servicios y precios <span class="text-primary-soft">claros</span>
+        </h2>
+        <p class="mx-auto mt-4 max-w-2xl text-center leading-relaxed text-gray-300">
+          Un solo precio con todo incluido. Compara con lo que cobra el mercado y decide tú mismo.
+        </p>
+        <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {
+            servicios.map((s) => (
+              <article
+                class={`flex flex-col rounded-2xl border p-6 transition-colors duration-200 ${
+                  s.destacado
+                    ? 'border-primary/60 bg-primary/10 hover:border-primary'
+                    : 'border-white/10 bg-panel/60 hover:border-white/25'
+                }`}
+              >
+                {s.destacado && (
+                  <p class="mb-4 -mt-9 self-center rounded-full bg-primary px-4 py-1 text-xs font-bold uppercase tracking-wide text-white">
+                    El favorito
+                  </p>
+                )}
+                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/15 text-primary-soft">
+                  <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d={iconPaths[s.icon]} />
+                  </svg>
+                </div>
+                <h3 class="mt-4 text-xl font-bold text-white">{s.nombre}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-gray-300">{s.desc}</p>
+                <p class="mt-5 font-heading text-3xl font-bold text-white">{s.precio}</p>
+                <p class="text-sm font-medium text-primary-soft">{s.mes}</p>
+                <p class="mt-1 text-xs text-gray-400">{s.mercado}</p>
+                <ul class="mt-5 space-y-2 text-sm text-gray-200">
+                  {s.incluye.map((i) => (
+                    <li class="flex items-start gap-2">
+                      <svg class="mt-0.5 h-4 w-4 shrink-0 text-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d={iconPaths.check} />
+                      </svg>
+                      {i}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={wa(`Hola DeOne Labs, me interesa: ${s.nombre}`)}
+                  target="_blank"
+                  rel="noopener"
+                  class={`mt-6 cursor-pointer rounded-xl px-5 py-2.5 text-center text-sm font-bold transition-colors duration-200 ${
+                    s.destacado
+                      ? 'bg-primary text-white hover:bg-indigo-500'
+                      : 'border border-white/15 text-white hover:bg-white/5'
+                  }`}
+                >
+                  Lo quiero
+                </a>
+              </article>
+            ))
+          }
+        </div>
+        <p class="mt-8 text-center text-sm text-gray-400">
+          Pago fácil: 50% para iniciar y 50% contra entrega · Nequi o Bancolombia · Sin permanencia
+        </p>
+      </div>
+    </section>
+
+    <!-- Bot estrella -->
+    <section id="bot" class="scroll-mt-24 px-4 py-20">
+      <div class="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/15 via-panel to-ink p-8 md:p-14">
+        <div class="grid items-center gap-10 lg:grid-cols-2">
+          <div>
+            <p class="mb-4 inline-block rounded-full border border-wa/40 bg-wa/10 px-4 py-1.5 text-sm font-medium text-wa">
+              Producto estrella
+            </p>
+            <h2 class="text-3xl font-bold leading-tight tracking-tight text-white md:text-4xl">
+              Un empleado que atiende tu WhatsApp <span class="text-primary-soft">24 horas</span> y nunca pide vacaciones
+            </h2>
+            <p class="mt-5 leading-relaxed text-gray-300">
+              Nuestro bot con inteligencia artificial responde a tus clientes al instante, toma pedidos,
+              agenda citas, responde preguntas de tu negocio y te pasa la conversación cuando de verdad
+              se necesita una persona.
+            </p>
+            <ul class="mt-6 space-y-3 text-gray-200">
+              <li class="flex items-start gap-3">
+                <svg class="mt-0.5 h-5 w-5 shrink-0 text-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={iconPaths.check} /></svg>
+                <span><strong class="text-white">Sin costo por mensaje.</strong> Otros te cobran cada conversación; con nosotros es plano.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="mt-0.5 h-5 w-5 shrink-0 text-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={iconPaths.check} /></svg>
+                <span><strong class="text-white">IA entrenada con tu negocio:</strong> precios, horarios, productos y preguntas frecuentes.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="mt-0.5 h-5 w-5 shrink-0 text-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={iconPaths.check} /></svg>
+                <span><strong class="text-white">Escala a humano</strong> cuando el cliente lo necesita, con aviso a tu celular.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <svg class="mt-0.5 h-5 w-5 shrink-0 text-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={iconPaths.check} /></svg>
+                <span>Ya funciona en producción atendiendo usuarios reales todos los días.</span>
+              </li>
+            </ul>
+            <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+              <a
+                href={wa('Hola, quiero probar el bot con inteligencia artificial')}
+                target="_blank"
+                rel="noopener"
+                class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-wa px-7 py-3.5 font-bold text-ink transition-colors duration-200 hover:bg-green-400"
+              >
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={iconPaths.whatsapp}></path></svg>
+                Pruébalo tú mismo
+              </a>
+              <p class="text-sm text-gray-300">
+                <span class="font-heading text-2xl font-bold text-white">$1.490.000</span> instalación +
+                <span class="font-semibold text-white">$179.000/mes</span><br />
+                <span class="text-gray-400">Agencias grandes cobran $6 a $16 millones por esto</span>
+              </p>
+            </div>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-ink/70 p-5 backdrop-blur-sm" aria-label="Ejemplo de conversación con el bot">
+            <p class="mb-4 flex items-center gap-2 border-b border-white/10 pb-3 text-sm font-semibold text-white">
+              <span class="inline-block h-2.5 w-2.5 rounded-full bg-wa" aria-hidden="true"></span>
+              Ferretería El Tornillo · en línea
+            </p>
+            <div class="space-y-3 text-sm">
+              <p class="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm bg-primary/30 px-4 py-2.5 text-gray-100">¿Tienen pintura blanca tipo 1? ¿A cómo el galón?</p>
+              <p class="w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-panel px-4 py-2.5 text-gray-200">¡Hola! 👋 Sí tenemos. El galón tipo 1 está a $68.000 y el garrafón a $198.000. ¿Te lo aparto o te lo enviamos a domicilio?</p>
+              <p class="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm bg-primary/30 px-4 py-2.5 text-gray-100">A domicilio, estoy en el barrio Centro</p>
+              <p class="w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-panel px-4 py-2.5 text-gray-200">Perfecto ✅ Domicilio al Centro: $5.000, llega hoy antes de las 5pm. Me confirmas nombre y dirección y queda pedido.</p>
+              <p class="text-center text-xs text-gray-500">El bot respondió en 2 segundos, un domingo a las 9pm.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portafolio -->
+    <section id="portafolio" class="scroll-mt-24 px-4 py-20">
+      <div class="mx-auto max-w-6xl">
+        <h2 class="text-center text-3xl font-bold tracking-tight text-white md:text-4xl">Ya lo hacemos en producción</h2>
+        <p class="mx-auto mt-4 max-w-2xl text-center leading-relaxed text-gray-300">
+          No vendemos promesas: esta misma tecnología ya atiende usuarios reales.
+        </p>
+        <div class="mt-12 grid gap-6 md:grid-cols-2">
+          <article class="rounded-2xl border border-white/10 bg-panel/60 p-8 transition-colors duration-200 hover:border-white/25">
+            <h3 class="text-xl font-bold text-white">TerraEmpleo</h3>
+            <p class="mt-1 text-sm font-medium text-primary-soft">App de empleo rural · Colombia</p>
+            <p class="mt-4 leading-relaxed text-gray-300">
+              Plataforma completa: app móvil, web y un bot de WhatsApp con inteligencia artificial que
+              registra usuarios, publica vacantes, envía ofertas con foto y responde preguntas — todo
+              automático, con escalado a asesores humanos.
+            </p>
+            <ul class="mt-5 flex flex-wrap gap-2 text-xs font-medium">
+              <li class="rounded-full border border-white/15 px-3 py-1 text-gray-300">App móvil</li>
+              <li class="rounded-full border border-white/15 px-3 py-1 text-gray-300">Web</li>
+              <li class="rounded-full border border-white/15 px-3 py-1 text-gray-300">Bot WhatsApp + IA</li>
+              <li class="rounded-full border border-white/15 px-3 py-1 text-gray-300">Notificaciones automáticas</li>
+            </ul>
+          </article>
+          <article class="flex flex-col justify-center rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-8 text-center">
+            <p class="font-heading text-2xl font-bold text-white">Tu negocio puede ser el siguiente</p>
+            <p class="mx-auto mt-3 max-w-sm leading-relaxed text-gray-300">
+              Los primeros 10 clientes estrenan precio de lanzamiento y aparecen aquí, en nuestro portafolio.
+            </p>
+            <a
+              href={wa('Hola DeOne Labs, quiero ser de los primeros 10 clientes')}
+              target="_blank"
+              rel="noopener"
+              class="mx-auto mt-6 cursor-pointer rounded-xl bg-primary px-6 py-3 font-bold text-white transition-colors duration-200 hover:bg-indigo-500"
+            >
+              Quiero mi cupo
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="preguntas" class="scroll-mt-24 px-4 py-20">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="text-center text-3xl font-bold tracking-tight text-white md:text-4xl">Preguntas frecuentes</h2>
+        <div class="mt-10 space-y-4">
+          <details class="group rounded-2xl border border-white/10 bg-panel/60 p-6">
+            <summary class="cursor-pointer list-none font-semibold text-white transition-colors duration-200 group-open:text-primary-soft">
+              ¿Por qué tan barato comparado con otras agencias?
+            </summary>
+            <p class="mt-3 leading-relaxed text-gray-300">
+              Porque nuestra infraestructura es propia y ultraeficiente, y trabajamos con plantillas
+              profesionales que personalizamos para ti. No pagas oficinas ni intermediarios: pagas el
+              trabajo y ya.
+            </p>
+          </details>
+          <details class="group rounded-2xl border border-white/10 bg-panel/60 p-6">
+            <summary class="cursor-pointer list-none font-semibold text-white transition-colors duration-200 group-open:text-primary-soft">
+              ¿Qué incluye la mensualidad?
+            </summary>
+            <p class="mt-3 leading-relaxed text-gray-300">
+              Hosting, dominio, certificado de seguridad (SSL), copias de seguridad, soporte por WhatsApp
+              y cambios menores de contenido. Un solo pago, sin sorpresas.
+            </p>
+          </details>
+          <details class="group rounded-2xl border border-white/10 bg-panel/60 p-6">
+            <summary class="cursor-pointer list-none font-semibold text-white transition-colors duration-200 group-open:text-primary-soft">
+              ¿Y si no me gusta el diseño?
+            </summary>
+            <p class="mt-3 leading-relaxed text-gray-300">
+              Te devolvemos la plata. Así de simple. Primero te mostramos el diseño, lo ajustamos contigo
+              y solo pagas el saldo cuando estés feliz con el resultado.
+            </p>
+          </details>
+          <details class="group rounded-2xl border border-white/10 bg-panel/60 p-6">
+            <summary class="cursor-pointer list-none font-semibold text-white transition-colors duration-200 group-open:text-primary-soft">
+              ¿El bot de WhatsApp usa mi mismo número?
+            </summary>
+            <p class="mt-3 leading-relaxed text-gray-300">
+              Sí. El bot atiende desde tu número de WhatsApp, con tu nombre y tu logo. Tú sigues pudiendo
+              entrar a la conversación cuando quieras.
+            </p>
+          </details>
+          <details class="group rounded-2xl border border-white/10 bg-panel/60 p-6">
+            <summary class="cursor-pointer list-none font-semibold text-white transition-colors duration-200 group-open:text-primary-soft">
+              ¿Hay permanencia mínima?
+            </summary>
+            <p class="mt-3 leading-relaxed text-gray-300">
+              No. Si un mes decides no seguir, no sigues. Tu dominio es tuyo y te lo entregamos.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA final -->
+    <section class="px-4 pb-24 pt-8">
+      <div class="mx-auto max-w-4xl rounded-3xl border border-primary/40 bg-gradient-to-br from-primary/20 to-panel p-10 text-center md:p-14">
+        <h2 class="text-3xl font-bold tracking-tight text-white md:text-4xl">
+          Hablemos de tu negocio, sin compromiso
+        </h2>
+        <p class="mx-auto mt-4 max-w-xl leading-relaxed text-gray-300">
+          Cuéntanos qué necesitas y en menos de 24 horas te mandamos una propuesta con precio cerrado.
+          La cotización es gratis y no te compromete a nada.
+        </p>
+        <a
+          href={wa('Hola DeOne Labs, quiero una cotización gratis para mi negocio')}
+          target="_blank"
+          rel="noopener"
+          class="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-xl bg-wa px-8 py-4 text-lg font-bold text-ink transition-colors duration-200 hover:bg-green-400"
+        >
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={iconPaths.whatsapp}></path></svg>
+          Cotizar gratis por WhatsApp
+        </a>
+      </div>
+    </section>
+
+    <footer class="border-t border-white/10 px-4 py-10">
+      <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-sm text-gray-400 md:flex-row">
+        <p class="font-heading font-bold text-white"><span class="text-primary-soft">◆</span> DeOne Labs</p>
+        <p>Páginas web · Bots con IA · Correo corporativo · Automatizaciones</p>
+        <p>Colombia · {new Date().getFullYear()}</p>
+      </div>
+    </footer>
+  </body>
+</html>
