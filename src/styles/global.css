@@ -1,37 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&display=swap');
 @import 'tailwindcss';
 
 @theme {
-  --font-heading: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
-  --font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-heading: 'Anton', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
 
-  --color-ink: #0b0f1a;
-  --color-panel: #111827;
-  --color-primary: #6366f1;
-  --color-primary-soft: #818cf8;
-  --color-wa: #22c55e;
+  /* Paleta DeOne Labs — bloques duros estilo manifiesto DO */
+  --color-brand: #fbde5b; /* amarillo de marca (fondos) */
+  --color-yellow: #ffd600; /* amarillo acento (texto sobre negro) */
+  --color-ink: #0b0b0b;
+  --color-paper: #f2efea; /* crema de los bloques claros */
+  --color-smoke: #f5f5f5;
+  --color-line: #eaeaea;
+  --color-mid: #666666;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
 body {
   font-family: var(--font-body);
-  background-color: var(--color-ink);
-  color: #e5e7eb;
+  background-color: #ffffff;
+  color: var(--color-ink);
+  /* clip (no hidden): hidden rompe el scroll suave de los anclajes en Chrome */
+  overflow-x: clip;
 }
 
 h1,
@@ -39,4 +32,362 @@ h2,
 h3,
 h4 {
   font-family: var(--font-heading);
+  font-weight: 400; /* Anton solo tiene un peso, ya es ultra pesado */
+  letter-spacing: 0.015em;
 }
+
+::selection {
+  background: var(--color-yellow);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+.bg-ink :focus-visible {
+  outline-color: var(--color-yellow);
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--d, 0s);
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Animaciones ambientales ---------- */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(-14px) rotate(var(--r, 0deg));
+  }
+}
+
+.animate-float {
+  animation: float 7s ease-in-out infinite;
+  animation-delay: var(--fd, 0s);
+}
+
+@keyframes dashmove {
+  to {
+    stroke-dashoffset: -260;
+  }
+}
+
+.animate-dash {
+  animation: dashmove 14s linear infinite;
+}
+
+/* ---------- Header / navbar ---------- */
+#site-header {
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.4s ease;
+}
+
+#site-header.nav-hidden {
+  transform: translateY(-110%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+#site-nav {
+  transition: padding 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  padding-block: 1rem;
+}
+
+#site-nav.nav-small {
+  padding-block: 0.5rem;
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  height: 3px;
+  width: 100%;
+  background: var(--color-ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* ---------- Botones: redondeados con glow y escala suave ---------- */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+  will-change: transform;
+}
+
+.btn:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-yellow {
+  box-shadow: 0 10px 30px -8px rgba(255, 214, 0, 0.55);
+}
+
+.btn-yellow:hover {
+  box-shadow: 0 18px 46px -8px rgba(255, 214, 0, 0.7);
+}
+
+.btn-dark {
+  box-shadow: 0 10px 28px -10px rgba(11, 11, 11, 0.35);
+}
+
+.btn-dark:hover {
+  box-shadow: 0 18px 44px -12px rgba(11, 11, 11, 0.5);
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.45);
+  transform: scale(0);
+  animation: ripple 0.7s ease-out forwards;
+  pointer-events: none;
+}
+
+.ripple-dark {
+  background: rgba(11, 11, 11, 0.15);
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* ---------- Cards: elevación con sombra dura ---------- */
+.card-lift {
+  transition:
+    transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.card-lift:hover {
+  transform: translate(-5px, -5px);
+  box-shadow: 10px 10px 0 var(--sc, var(--color-ink));
+}
+
+/* ---------- Barra corta bajo títulos (estilo manifiesto) ---------- */
+.bar-under::after {
+  content: '';
+  display: block;
+  width: 3.5rem;
+  height: 0.45rem;
+  margin-top: 0.9rem;
+  background: currentColor;
+}
+
+.bar-center::after {
+  margin-inline: auto;
+}
+
+/* ---------- Acordeón FAQ ---------- */
+.faq-item {
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.faq-item.open {
+  box-shadow: 8px 8px 0 var(--color-ink);
+  transform: translate(-3px, -3px);
+}
+
+.faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.faq-panel > div {
+  overflow: hidden;
+}
+
+.faq-item.open .faq-panel {
+  grid-template-rows: 1fr;
+}
+
+.faq-icon {
+  position: relative;
+  display: inline-block;
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+}
+
+.faq-icon::before,
+.faq-icon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: currentColor;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.faq-icon::before {
+  width: 16px;
+  height: 3px;
+}
+
+.faq-icon::after {
+  width: 3px;
+  height: 16px;
+}
+
+.faq-item.open .faq-icon::before {
+  transform: rotate(180deg);
+}
+
+.faq-item.open .faq-icon::after {
+  transform: rotate(270deg);
+  opacity: 0;
+}
+
+/* ---------- Chat WhatsApp ---------- */
+.is-hidden {
+  display: none;
+}
+
+@keyframes msgIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.msg-in {
+  animation: msgIn 0.45s cubic-bezier(0.34, 1.3, 0.4, 1) both;
+}
+
+.typing-dot {
+  animation: blink 1.2s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+#chat-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+/* ---------- Cortina de entrada ---------- */
+#curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.curtain-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50.5%;
+  background: var(--color-brand);
+  transition: transform 0.95s cubic-bezier(0.77, 0, 0.18, 1);
+  will-change: transform;
+}
+
+.curtain-left {
+  left: 0;
+}
+
+.curtain-right {
+  right: 0;
+}
+
+#curtain.open .curtain-left {
+  transform: translateX(-102%);
+}
+
+#curtain.open .curtain-right {
+  transform: translateX(102%);
+}
+
+.curtain-content {
+  position: relative;
+  opacity: 0;
+  animation: curtainIn 0.7s ease 0.15s forwards;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+#curtain.open .curtain-content {
+  opacity: 0 !important;
+  transform: scale(0.94);
+}
+
+@keyframes curtainIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Nota: las animaciones están siempre activas por decisión de la marca,
+   incluso si el sistema operativo tiene "reducir movimiento" activado
+   (Windows con las animaciones del sistema apagadas lo activa solo). */

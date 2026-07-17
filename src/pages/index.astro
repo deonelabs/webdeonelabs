@@ -63,6 +63,36 @@ const servicios = [
   },
 ];
 
+const chat = [
+  { from: 'cliente', text: '¿Tienen pintura blanca tipo 1? ¿A cómo el galón?' },
+  { from: 'bot', text: '¡Hola! 👋 Sí tenemos. El galón tipo 1 está a $68.000 y el garrafón a $198.000. ¿Te lo aparto o te lo enviamos a domicilio?' },
+  { from: 'cliente', text: 'A domicilio, estoy en el barrio Centro' },
+  { from: 'bot', text: 'Perfecto ✅ Domicilio al Centro: $5.000, llega hoy antes de las 5pm. Me confirmas nombre y dirección y queda pedido.' },
+];
+
+const faqs = [
+  {
+    q: '¿Por qué tan barato comparado con otras agencias?',
+    a: 'Porque nuestra infraestructura es propia y ultraeficiente, y trabajamos con plantillas profesionales que personalizamos para ti. No pagas oficinas ni intermediarios: pagas el trabajo y ya.',
+  },
+  {
+    q: '¿Qué incluye la mensualidad?',
+    a: 'Hosting, dominio, certificado de seguridad (SSL), copias de seguridad, soporte por WhatsApp y cambios menores de contenido. Un solo pago, sin sorpresas.',
+  },
+  {
+    q: '¿Y si no me gusta el diseño?',
+    a: 'Te devolvemos la plata. Así de simple. Primero te mostramos el diseño, lo ajustamos contigo y solo pagas el saldo cuando estés feliz con el resultado.',
+  },
+  {
+    q: '¿El bot de WhatsApp usa mi mismo número?',
+    a: 'Sí. El bot atiende desde tu número de WhatsApp, con tu nombre y tu logo. Tú sigues pudiendo entrar a la conversación cuando quieras.',
+  },
+  {
+    q: '¿Hay permanencia mínima?',
+    a: 'No. Si un mes decides no seguir, no sigues. Tu dominio es tuyo y te lo entregamos.',
+  },
+];
+
 const iconPaths = {
   bolt: 'M13 10V3L4 14h7v7l9-11h-7z',
   building:
@@ -74,8 +104,15 @@ const iconPaths = {
   rocket:
     'M15.6 3.4c1.9-.6 3.7-.6 5 0 .6 1.3.6 3.1 0 5-1 2.7-3.2 5.6-6.6 7.7l-3.1 3.1a1 1 0 01-1.6-.3l-1.5-3.3-3.3-1.5a1 1 0 01-.3-1.6l3.1-3.1c2.1-3.4 5-5.6 7.7-6.6zM6 15l-2 5 5-2m6-7a1.5 1.5 0 100-3 1.5 1.5 0 000 3z',
   check: 'M5 13l4 4L19 7',
+  arrow: 'M5 12h14m-6-6 6 6-6 6',
   whatsapp:
     'M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm4.8 13.9c-.2.6-1.2 1.1-1.7 1.2-.4 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c0 .2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.2 1.1 2.3 1.5 2.6 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2.1 1c.3.2.5.3.6.4 0 .1 0 .8-.4 1.4z',
+  phone:
+    'M3 5.5A2.5 2.5 0 015.5 3h1.6a1 1 0 01.95.68l1.1 3.3a1 1 0 01-.25 1.03l-1.36 1.36a12.5 12.5 0 006.09 6.09l1.36-1.36a1 1 0 011.03-.25l3.3 1.1a1 1 0 01.68.95v1.6A2.5 2.5 0 0118.5 21 15.5 15.5 0 013 5.5z',
+  video: 'M23 7l-7 5 7 5V7zM14 5H3a2 2 0 00-2 2v10a2 2 0 002 2h11a2 2 0 002-2V7a2 2 0 00-2-2z',
+  mic: 'M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3zM19 10v2a7 7 0 01-14 0v-2M12 19v4',
+  plus: 'M12 5v14M5 12h14',
+  dots: 'M12 5h.01M12 12h.01M12 19h.01',
 };
 ---
 
@@ -88,27 +125,45 @@ const iconPaths = {
       name="description"
       content="Páginas web todo incluido desde $390.000, bots de WhatsApp con inteligencia artificial, correo corporativo y automatizaciones para pymes en Colombia. Sin costos escondidos."
     />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>" />
+    <meta name="theme-color" content="#FBDE5B" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23FBDE5B'/><text x='50' y='69' font-family='Arial, sans-serif' font-size='44' font-weight='900' text-anchor='middle' fill='%230B0B0B'>DO</text></svg>" />
   </head>
   <body class="min-h-screen antialiased">
-    <!-- Nav -->
-    <header class="fixed inset-x-4 top-4 z-50">
+    <!-- Cortina de entrada con la imagen de marca -->
+    <div id="curtain" aria-hidden="true">
+      <div class="curtain-panel curtain-left"></div>
+      <div class="curtain-panel curtain-right"></div>
+      <div class="curtain-content px-6 text-center">
+        <p class="font-heading text-7xl leading-none tracking-tight text-ink md:text-8xl">DO</p>
+        <p class="mt-1 text-[0.65rem] font-extrabold tracking-[0.4em] text-ink md:text-xs">DE ONE</p>
+        <p class="mx-auto mt-10 max-w-md text-2xl font-medium leading-snug text-ink/90 md:text-3xl">
+          Aquí pasamos de<br />pensarlo… a, la
+        </p>
+        <p class="mt-4 font-heading text-4xl uppercase tracking-tight text-ink md:text-5xl">Acción</p>
+        <p class="mt-6 text-sm text-ink/80 md:text-base">(lo único que hará tus sueños realidad)</p>
+      </div>
+    </div>
+
+    <!-- Nav: barra plana amarilla con borde negro -->
+    <header id="site-header" class="fixed inset-x-0 top-0 z-50">
       <nav
-        class="mx-auto flex max-w-6xl items-center justify-between rounded-2xl border border-white/10 bg-ink/80 px-5 py-3 backdrop-blur-md"
+        id="site-nav"
+        class="grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b-4 border-ink bg-brand px-4 md:grid-cols-3 md:px-8"
         aria-label="Principal"
       >
-        <a href="#" class="font-heading text-lg font-bold tracking-tight text-white">
-          <span class="text-primary-soft">◆</span> DeOne Labs
+        <a href="#" class="flex items-center gap-2.5 justify-self-start">
+          <span class="grid h-9 w-9 place-items-center bg-ink font-heading text-sm text-brand" aria-hidden="true">DO</span>
+          <span class="font-heading text-lg uppercase tracking-wide text-ink">DeOne Labs</span>
         </a>
-        <div class="hidden items-center gap-6 text-sm text-gray-300 md:flex">
-          <a href="#servicios" class="transition-colors duration-200 hover:text-white">Servicios</a>
-          <a href="#bot" class="transition-colors duration-200 hover:text-white">Bot con IA</a>
-          <a href="#portafolio" class="transition-colors duration-200 hover:text-white">Portafolio</a>
-          <a href="#preguntas" class="transition-colors duration-200 hover:text-white">Preguntas</a>
+        <div class="hidden items-center justify-center gap-8 text-xs font-extrabold uppercase tracking-widest text-ink md:flex">
+          <a href="#servicios" class="nav-link">Servicios</a>
+          <a href="#bot" class="nav-link">Bot con IA</a>
+          <a href="#portafolio" class="nav-link">Portafolio</a>
+          <a href="#preguntas" class="nav-link">Preguntas</a>
         </div>
         <a
           href={wa('Hola DeOne Labs, quiero información sobre sus servicios')}
-          class="cursor-pointer rounded-xl bg-wa px-4 py-2 text-sm font-bold text-ink transition-colors duration-200 hover:bg-green-400"
+          class="btn btn-dark btn-ripple justify-self-end rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-white"
           target="_blank"
           rel="noopener"
         >
@@ -117,99 +172,136 @@ const iconPaths = {
       </nav>
     </header>
 
-    <!-- Hero -->
-    <section class="relative overflow-hidden px-4 pb-20 pt-36 md:pt-44">
+    <!-- Hero: bloque amarillo -->
+    <section id="hero" class="relative flex min-h-screen items-center overflow-hidden bg-brand px-4 pb-20 pt-36">
+      <!-- Líneas decorativas -->
       <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div class="absolute -top-32 left-1/2 h-96 w-[42rem] -translate-x-1/2 rounded-full bg-primary/25 blur-[120px]"></div>
-        <div class="absolute right-0 top-40 h-72 w-72 rounded-full bg-wa/10 blur-[100px]"></div>
+        <svg class="absolute inset-0 hidden h-full w-full lg:block" viewBox="0 0 1440 900" fill="none" preserveAspectRatio="xMidYMid slice">
+          <path d="M120 300 C 320 180, 520 220, 720 300 S 1150 380, 1330 260" stroke="#0B0B0B" stroke-opacity="0.12" stroke-width="2" />
+          <path class="animate-dash" d="M180 620 C 420 700, 760 560, 1000 640 S 1280 700, 1380 620" stroke="#0B0B0B" stroke-opacity="0.35" stroke-width="2" stroke-dasharray="8 10" />
+          <path class="animate-dash" d="M100 260 C 360 340, 680 200, 980 280 S 1300 340, 1400 300" stroke="#FFFFFF" stroke-opacity="0.8" stroke-width="2" stroke-dasharray="4 12" style="animation-delay:-6s" />
+        </svg>
       </div>
-      <div class="relative mx-auto max-w-6xl text-center">
-        <p class="mb-5 inline-block rounded-full border border-primary/40 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary-soft">
+
+      <!-- Tarjetas flotantes con parallax -->
+      <div class="pointer-events-none absolute left-[7%] top-[27%] hidden lg:block" data-depth="26" aria-hidden="true">
+        <div class="animate-float" style="--r:-6deg">
+          <div class="grid h-16 w-16 place-items-center border-4 border-ink bg-white">
+            <svg class="h-7 w-7 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.bolt} /></svg>
+          </div>
+        </div>
+      </div>
+      <div class="pointer-events-none absolute right-[8%] top-[24%] hidden lg:block" data-depth="38" aria-hidden="true">
+        <div class="animate-float" style="--r:5deg; --fd:-2s">
+          <div class="grid h-16 w-16 place-items-center bg-ink">
+            <svg class="h-7 w-7 text-yellow" viewBox="0 0 24 24" fill="currentColor"><path d={iconPaths.whatsapp} /></svg>
+          </div>
+        </div>
+      </div>
+      <div class="pointer-events-none absolute bottom-[20%] left-[13%] hidden lg:block" data-depth="18" aria-hidden="true">
+        <div class="animate-float" style="--r:4deg; --fd:-4s">
+          <div class="grid h-14 w-14 place-items-center border-4 border-ink bg-white">
+            <svg class="h-6 w-6 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.mail} /></svg>
+          </div>
+        </div>
+      </div>
+      <div class="pointer-events-none absolute bottom-[26%] right-[11%] hidden lg:block" data-depth="30" aria-hidden="true">
+        <div class="animate-float" style="--r:-4deg; --fd:-5s">
+          <div class="grid h-14 w-14 place-items-center border-4 border-ink bg-white">
+            <svg class="h-6 w-6 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.cart} /></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative mx-auto w-full max-w-6xl text-center">
+        <p class="reveal mb-8 inline-flex items-center gap-2 border-2 border-ink bg-white px-4 py-1.5 text-xs font-extrabold uppercase tracking-wider text-ink">
+          <span class="inline-block h-2 w-2 animate-pulse bg-ink" aria-hidden="true"></span>
           Promo de lanzamiento: precio especial para los primeros 10 clientes
         </p>
-        <h1 class="mx-auto max-w-4xl text-4xl font-bold leading-tight tracking-tight text-white md:text-6xl">
-          Tu negocio en internet, <span class="text-primary-soft">todo incluido</span>, sin letra pequeña
+        <h1 class="reveal mx-auto max-w-5xl text-5xl uppercase leading-[0.95] text-ink sm:text-7xl md:text-8xl" style="--d:.1s">
+          Tu negocio en internet, <span class="inline-block bg-ink px-3 text-brand">todo incluido</span>, sin letra pequeña
         </h1>
-        <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-gray-300">
-          Páginas web desde <strong class="text-white">$390.000</strong>, bots de WhatsApp con inteligencia
+        <p class="reveal mx-auto mt-8 max-w-2xl text-lg font-medium leading-relaxed text-ink/80" style="--d:.2s">
+          Páginas web desde <strong class="text-ink">$390.000</strong>, bots de WhatsApp con inteligencia
           artificial que venden por ti 24/7, correo corporativo y automatizaciones. Dominio, hosting,
-          SSL y soporte <strong class="text-white">incluidos en un solo precio</strong>.
+          SSL y soporte <strong class="text-ink">incluidos en un solo precio</strong>.
         </p>
-        <div class="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div class="reveal mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row" style="--d:.3s">
           <a
             href={wa('Hola DeOne Labs, quiero cotizar mi página web')}
             target="_blank"
             rel="noopener"
-            class="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-wa px-7 py-3.5 text-base font-bold text-ink transition-colors duration-200 hover:bg-green-400"
+            class="btn btn-dark btn-ripple inline-flex items-center gap-2 rounded-2xl bg-ink px-8 py-4 text-base font-bold text-white"
           >
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={iconPaths.whatsapp}></path></svg>
+            <svg class="h-5 w-5 text-yellow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={iconPaths.whatsapp}></path></svg>
             Cotiza gratis por WhatsApp
           </a>
           <a
             href="#servicios"
-            class="cursor-pointer rounded-xl border border-white/15 px-7 py-3.5 text-base font-semibold text-white transition-colors duration-200 hover:bg-white/5"
+            class="btn btn-ripple rounded-2xl border-2 border-ink bg-white px-8 py-4 text-base font-bold text-ink"
           >
             Ver precios
           </a>
         </div>
-        <dl class="mx-auto mt-14 grid max-w-3xl grid-cols-1 gap-4 sm:grid-cols-3">
-          <div class="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
-            <dt class="text-sm text-gray-400">Entrega de tu página</dt>
-            <dd class="mt-1 font-heading text-2xl font-bold text-white">5–7 días</dd>
+        <dl class="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-0 sm:grid-cols-3">
+          <div class="reveal bg-ink p-6 text-left" style="--d:.4s">
+            <dt class="text-xs font-bold uppercase tracking-widest text-white/60">Entrega de tu página</dt>
+            <dd class="mt-2 font-heading text-3xl uppercase text-yellow">5–7 días</dd>
           </div>
-          <div class="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
-            <dt class="text-sm text-gray-400">Costos escondidos</dt>
-            <dd class="mt-1 font-heading text-2xl font-bold text-white">Cero</dd>
+          <div class="reveal border-4 border-ink bg-white p-6 text-left" style="--d:.5s">
+            <dt class="text-xs font-bold uppercase tracking-widest text-mid">Costos escondidos</dt>
+            <dd class="mt-2 font-heading text-3xl uppercase text-ink">Cero</dd>
           </div>
-          <div class="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
-            <dt class="text-sm text-gray-400">Si no te gusta el diseño</dt>
-            <dd class="mt-1 font-heading text-2xl font-bold text-white">Te devolvemos la plata</dd>
+          <div class="reveal bg-paper p-6 text-left" style="--d:.6s">
+            <dt class="text-xs font-bold uppercase tracking-widest text-mid">Si no te gusta el diseño</dt>
+            <dd class="mt-2 font-heading text-3xl uppercase leading-none text-ink">Te devolvemos la plata</dd>
           </div>
         </dl>
       </div>
     </section>
 
-    <!-- Servicios -->
-    <section id="servicios" class="scroll-mt-24 px-4 py-20">
+    <!-- Servicios: bloque negro -->
+    <section id="servicios" class="scroll-mt-20 bg-ink px-4 py-24">
       <div class="mx-auto max-w-6xl">
-        <h2 class="text-center text-3xl font-bold tracking-tight text-white md:text-4xl">
-          Servicios y precios <span class="text-primary-soft">claros</span>
+        <h2 class="reveal bar-under bar-center text-center text-4xl uppercase leading-tight text-white md:text-6xl">
+          Servicios y precios <span class="inline-block bg-brand px-3 text-ink">claros</span>
         </h2>
-        <p class="mx-auto mt-4 max-w-2xl text-center leading-relaxed text-gray-300">
+        <p class="reveal mx-auto mt-8 max-w-2xl text-center font-medium leading-relaxed text-gray-300" style="--d:.1s">
           Un solo precio con todo incluido. Compara con lo que cobra el mercado y decide tú mismo.
         </p>
-        <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {
-            servicios.map((s) => (
+            servicios.map((s, i) => (
               <article
-                class={`flex flex-col rounded-2xl border p-6 transition-colors duration-200 ${
-                  s.destacado
-                    ? 'border-primary/60 bg-primary/10 hover:border-primary'
-                    : 'border-white/10 bg-panel/60 hover:border-white/25'
+                class={`reveal card-lift relative flex flex-col p-7 ${
+                  s.destacado ? 'bg-brand text-ink' : 'bg-white text-ink'
                 }`}
+                style={`--d:${(i % 3) * 0.1}s; --sc:${s.destacado ? '#ffffff' : '#FFD600'}`}
               >
                 {s.destacado && (
-                  <p class="mb-4 -mt-9 self-center rounded-full bg-primary px-4 py-1 text-xs font-bold uppercase tracking-wide text-white">
+                  <p class="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap bg-ink px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-brand">
                     El favorito
                   </p>
                 )}
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/15 text-primary-soft">
-                  <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <div class={`grid h-14 w-14 place-items-center ${s.destacado ? 'bg-ink text-brand' : 'bg-brand text-ink'}`}>
+                  <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d={iconPaths[s.icon]} />
                   </svg>
                 </div>
-                <h3 class="mt-4 text-xl font-bold text-white">{s.nombre}</h3>
-                <p class="mt-2 text-sm leading-relaxed text-gray-300">{s.desc}</p>
-                <p class="mt-5 font-heading text-3xl font-bold text-white">{s.precio}</p>
-                <p class="text-sm font-medium text-primary-soft">{s.mes}</p>
-                <p class="mt-1 text-xs text-gray-400">{s.mercado}</p>
-                <ul class="mt-5 space-y-2 text-sm text-gray-200">
-                  {s.incluye.map((i) => (
-                    <li class="flex items-start gap-2">
-                      <svg class="mt-0.5 h-4 w-4 shrink-0 text-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d={iconPaths.check} />
-                      </svg>
-                      {i}
+                <h3 class="mt-5 text-2xl uppercase tracking-wide">{s.nombre}</h3>
+                <p class="mt-2 text-sm font-medium leading-relaxed text-ink/70">{s.desc}</p>
+                <p class="mt-6 font-heading text-4xl uppercase leading-none">{s.precio}</p>
+                <p class="mt-2 w-fit bg-ink px-2.5 py-1 text-xs font-extrabold uppercase tracking-wider text-brand">{s.mes}</p>
+                <p class="mt-2 text-xs font-semibold text-ink/50">{s.mercado}</p>
+                <ul class="mt-6 space-y-2.5 text-sm font-semibold text-ink/85">
+                  {s.incluye.map((item) => (
+                    <li class="flex items-start gap-2.5">
+                      <span class={`mt-0.5 grid h-4.5 w-4.5 shrink-0 place-items-center ${s.destacado ? 'bg-ink text-brand' : 'bg-brand text-ink'}`} aria-hidden="true">
+                        <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                          <path d={iconPaths.check} />
+                        </svg>
+                      </span>
+                      {item}
                     </li>
                   ))}
                 </ul>
@@ -217,10 +309,8 @@ const iconPaths = {
                   href={wa(`Hola DeOne Labs, me interesa: ${s.nombre}`)}
                   target="_blank"
                   rel="noopener"
-                  class={`mt-6 cursor-pointer rounded-xl px-5 py-2.5 text-center text-sm font-bold transition-colors duration-200 ${
-                    s.destacado
-                      ? 'bg-primary text-white hover:bg-indigo-500'
-                      : 'border border-white/15 text-white hover:bg-white/5'
+                  class={`btn btn-dark btn-ripple mt-7 rounded-2xl px-5 py-3 text-center text-sm font-bold ${
+                    s.destacado ? 'bg-ink text-brand' : 'bg-ink text-white'
                   }`}
                 >
                   Lo quiero
@@ -229,182 +319,246 @@ const iconPaths = {
             ))
           }
         </div>
-        <p class="mt-8 text-center text-sm text-gray-400">
+        <p class="reveal mt-10 text-center text-sm font-bold uppercase tracking-wider text-gray-400">
           Pago fácil: 50% para iniciar y 50% contra entrega · Nequi o Bancolombia · Sin permanencia
         </p>
       </div>
     </section>
 
-    <!-- Bot estrella -->
-    <section id="bot" class="scroll-mt-24 px-4 py-20">
-      <div class="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/15 via-panel to-ink p-8 md:p-14">
-        <div class="grid items-center gap-10 lg:grid-cols-2">
-          <div>
-            <p class="mb-4 inline-block rounded-full border border-wa/40 bg-wa/10 px-4 py-1.5 text-sm font-medium text-wa">
+    <!-- Bot estrella: bloque partido negro / amarillo -->
+    <section id="bot" class="scroll-mt-20">
+      <div class="grid lg:grid-cols-2">
+        <div class="flex items-center bg-ink px-5 py-16 md:px-14">
+          <div class="mx-auto max-w-xl lg:mx-0 lg:ml-auto lg:max-w-[34rem] lg:pr-6">
+            <p class="reveal mb-6 inline-flex items-center gap-2 border-2 border-yellow px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-yellow">
+              <span class="inline-block h-2 w-2 animate-pulse bg-yellow" aria-hidden="true"></span>
               Producto estrella
             </p>
-            <h2 class="text-3xl font-bold leading-tight tracking-tight text-white md:text-4xl">
-              Un empleado que atiende tu WhatsApp <span class="text-primary-soft">24 horas</span> y nunca pide vacaciones
+            <h2 class="reveal text-4xl uppercase leading-[1.02] text-white md:text-5xl">
+              Un empleado que atiende tu WhatsApp <span class="text-yellow">24 horas</span> y nunca pide vacaciones
             </h2>
-            <p class="mt-5 leading-relaxed text-gray-300">
+            <p class="reveal mt-6 font-medium leading-relaxed text-gray-300" style="--d:.1s">
               Nuestro bot con inteligencia artificial responde a tus clientes al instante, toma pedidos,
               agenda citas, responde preguntas de tu negocio y te pasa la conversación cuando de verdad
               se necesita una persona.
             </p>
-            <ul class="mt-6 space-y-3 text-gray-200">
+            <ul class="reveal mt-7 space-y-3.5 text-gray-200" style="--d:.15s">
               <li class="flex items-start gap-3">
-                <svg class="mt-0.5 h-5 w-5 shrink-0 text-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={iconPaths.check} /></svg>
+                <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center bg-yellow" aria-hidden="true">
+                  <svg class="h-3.5 w-3.5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.check} /></svg>
+                </span>
                 <span><strong class="text-white">Sin costo por mensaje.</strong> Otros te cobran cada conversación; con nosotros es plano.</span>
               </li>
               <li class="flex items-start gap-3">
-                <svg class="mt-0.5 h-5 w-5 shrink-0 text-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={iconPaths.check} /></svg>
+                <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center bg-yellow" aria-hidden="true">
+                  <svg class="h-3.5 w-3.5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.check} /></svg>
+                </span>
                 <span><strong class="text-white">IA entrenada con tu negocio:</strong> precios, horarios, productos y preguntas frecuentes.</span>
               </li>
               <li class="flex items-start gap-3">
-                <svg class="mt-0.5 h-5 w-5 shrink-0 text-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={iconPaths.check} /></svg>
+                <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center bg-yellow" aria-hidden="true">
+                  <svg class="h-3.5 w-3.5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.check} /></svg>
+                </span>
                 <span><strong class="text-white">Escala a humano</strong> cuando el cliente lo necesita, con aviso a tu celular.</span>
               </li>
               <li class="flex items-start gap-3">
-                <svg class="mt-0.5 h-5 w-5 shrink-0 text-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={iconPaths.check} /></svg>
+                <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center bg-yellow" aria-hidden="true">
+                  <svg class="h-3.5 w-3.5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.check} /></svg>
+                </span>
                 <span>Ya funciona en producción atendiendo usuarios reales todos los días.</span>
               </li>
             </ul>
-            <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+            <div class="reveal mt-9 flex flex-col gap-5 sm:flex-row sm:items-center" style="--d:.2s">
               <a
                 href={wa('Hola, quiero probar el bot con inteligencia artificial')}
                 target="_blank"
                 rel="noopener"
-                class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-wa px-7 py-3.5 font-bold text-ink transition-colors duration-200 hover:bg-green-400"
+                class="btn btn-yellow btn-ripple inline-flex items-center justify-center gap-2 rounded-2xl bg-brand px-8 py-4 font-bold text-ink"
               >
                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={iconPaths.whatsapp}></path></svg>
                 Pruébalo tú mismo
               </a>
               <p class="text-sm text-gray-300">
-                <span class="font-heading text-2xl font-bold text-white">$1.490.000</span> instalación +
-                <span class="font-semibold text-white">$179.000/mes</span><br />
-                <span class="text-gray-400">Agencias grandes cobran $6 a $16 millones por esto</span>
+                <span class="font-heading text-2xl text-white">$1.490.000</span> instalación +
+                <span class="font-extrabold text-yellow">$179.000/mes</span><br />
+                <span class="text-gray-500">Agencias grandes cobran $6 a $16 millones por esto</span>
               </p>
             </div>
           </div>
-          <div class="rounded-2xl border border-white/10 bg-ink/70 p-5 backdrop-blur-sm" aria-label="Ejemplo de conversación con el bot">
-            <p class="mb-4 flex items-center gap-2 border-b border-white/10 pb-3 text-sm font-semibold text-white">
-              <span class="inline-block h-2.5 w-2.5 rounded-full bg-wa" aria-hidden="true"></span>
-              Ferretería El Tornillo · en línea
-            </p>
-            <div class="space-y-3 text-sm">
-              <p class="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm bg-primary/30 px-4 py-2.5 text-gray-100">¿Tienen pintura blanca tipo 1? ¿A cómo el galón?</p>
-              <p class="w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-panel px-4 py-2.5 text-gray-200">¡Hola! 👋 Sí tenemos. El galón tipo 1 está a $68.000 y el garrafón a $198.000. ¿Te lo aparto o te lo enviamos a domicilio?</p>
-              <p class="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm bg-primary/30 px-4 py-2.5 text-gray-100">A domicilio, estoy en el barrio Centro</p>
-              <p class="w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-panel px-4 py-2.5 text-gray-200">Perfecto ✅ Domicilio al Centro: $5.000, llega hoy antes de las 5pm. Me confirmas nombre y dirección y queda pedido.</p>
-              <p class="text-center text-xs text-gray-500">El bot respondió en 2 segundos, un domingo a las 9pm.</p>
+        </div>
+
+        <!-- Panel amarillo con el teléfono -->
+        <div class="grid place-items-center bg-brand px-5 py-16 md:px-14">
+          <div class="w-full max-w-sm" id="chat-demo" aria-label="Ejemplo de conversación con el bot">
+            <div class="overflow-hidden rounded-[2.2rem] border-[6px] border-ink bg-[#0b141a] shadow-2xl">
+              <!-- Header estilo WhatsApp -->
+              <div class="flex items-center gap-3 bg-[#1f2c34] px-4 py-3">
+                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-brand" aria-hidden="true">
+                  <svg class="h-5 w-5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.building} /></svg>
+                </span>
+                <div class="min-w-0 flex-1">
+                  <p class="truncate text-sm font-bold text-white">Ferretería El Tornillo</p>
+                  <p class="flex items-center gap-1.5 text-xs text-gray-400">
+                    <span class="inline-block h-1.5 w-1.5 rounded-full bg-[#25d366]" aria-hidden="true"></span>
+                    en línea
+                  </p>
+                </div>
+                <div class="flex items-center gap-4 text-gray-400" aria-hidden="true">
+                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.video} /></svg>
+                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.phone} /></svg>
+                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d={iconPaths.dots} /></svg>
+                </div>
+              </div>
+              <!-- Mensajes -->
+              <div id="chat-scroll" class="h-[360px] space-y-3 overflow-y-auto px-4 py-5 text-sm">
+                {
+                  chat.map((m) => (
+                    <p
+                      data-msg={m.from}
+                      class={`is-hidden w-fit max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-snug text-gray-100 shadow ${
+                        m.from === 'cliente'
+                          ? 'ml-auto rounded-br-sm bg-[#005c4b]'
+                          : 'rounded-bl-sm bg-[#202c33]'
+                      }`}
+                    >
+                      {m.text}
+                    </p>
+                  ))
+                }
+                <!-- Indicador escribiendo... -->
+                <div id="chat-typing" class="is-hidden w-fit rounded-2xl rounded-bl-sm bg-[#202c33] px-4 py-3 shadow" aria-hidden="true">
+                  <span class="flex items-center gap-1.5">
+                    <span class="typing-dot inline-block h-2 w-2 rounded-full bg-gray-400"></span>
+                    <span class="typing-dot inline-block h-2 w-2 rounded-full bg-gray-400"></span>
+                    <span class="typing-dot inline-block h-2 w-2 rounded-full bg-gray-400"></span>
+                  </span>
+                </div>
+                <p data-chat-note class="is-hidden pt-1 text-center text-xs text-gray-500">El bot respondió en 2 segundos, un domingo a las 9pm.</p>
+              </div>
+              <!-- Barra inferior decorativa -->
+              <div class="flex items-center gap-3 bg-[#1f2c34] px-4 py-3 text-gray-400" aria-hidden="true">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d={iconPaths.plus} /></svg>
+                <span class="h-9 flex-1 rounded-full bg-[#2a3942]"></span>
+                <span class="grid h-9 w-9 place-items-center rounded-full bg-[#25d366]">
+                  <svg class="h-4.5 w-4.5 text-[#0b141a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.mic} /></svg>
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Portafolio -->
-    <section id="portafolio" class="scroll-mt-24 px-4 py-20">
+    <!-- Portafolio: bloque crema -->
+    <section id="portafolio" class="scroll-mt-20 bg-paper px-4 py-24">
       <div class="mx-auto max-w-6xl">
-        <h2 class="text-center text-3xl font-bold tracking-tight text-white md:text-4xl">Ya lo hacemos en producción</h2>
-        <p class="mx-auto mt-4 max-w-2xl text-center leading-relaxed text-gray-300">
+        <h2 class="reveal bar-under bar-center text-center text-4xl uppercase leading-tight text-ink md:text-6xl">Ya lo hacemos en producción</h2>
+        <p class="reveal mx-auto mt-8 max-w-2xl text-center font-medium leading-relaxed text-ink/70" style="--d:.1s">
           No vendemos promesas: esta misma tecnología ya atiende usuarios reales.
         </p>
-        <div class="mt-12 grid gap-6 md:grid-cols-2">
-          <article class="rounded-2xl border border-white/10 bg-panel/60 p-8 transition-colors duration-200 hover:border-white/25">
-            <h3 class="text-xl font-bold text-white">TerraEmpleo</h3>
-            <p class="mt-1 text-sm font-medium text-primary-soft">App de empleo rural · Colombia</p>
-            <p class="mt-4 leading-relaxed text-gray-300">
-              Plataforma completa: app móvil, web y un bot de WhatsApp con inteligencia artificial que
-              registra usuarios, publica vacantes, envía ofertas con foto y responde preguntas — todo
-              automático, con escalado a asesores humanos.
-            </p>
-            <ul class="mt-5 flex flex-wrap gap-2 text-xs font-medium">
-              <li class="rounded-full border border-white/15 px-3 py-1 text-gray-300">App móvil</li>
-              <li class="rounded-full border border-white/15 px-3 py-1 text-gray-300">Web</li>
-              <li class="rounded-full border border-white/15 px-3 py-1 text-gray-300">Bot WhatsApp + IA</li>
-              <li class="rounded-full border border-white/15 px-3 py-1 text-gray-300">Notificaciones automáticas</li>
-            </ul>
+        <div class="mt-14 grid gap-6 md:grid-cols-2">
+          <article class="reveal card-lift relative border-4 border-ink bg-white p-8">
+            <div class="relative flex flex-col gap-8 sm:flex-row sm:items-start">
+              <div class="min-w-0 flex-1">
+                <h3 class="text-3xl uppercase text-ink">TerraEmpleo</h3>
+                <p class="mt-2 inline-block bg-brand px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-ink">App de empleo rural · Colombia</p>
+                <p class="mt-5 font-medium leading-relaxed text-ink/70">
+                  Plataforma completa: app móvil, web y un bot de WhatsApp con inteligencia artificial que
+                  registra usuarios, publica vacantes, envía ofertas con foto y responde preguntas — todo
+                  automático, con escalado a asesores humanos.
+                </p>
+                <ul class="mt-6 flex flex-wrap gap-2 text-[0.65rem] font-extrabold uppercase tracking-wider">
+                  <li class="border-2 border-ink px-3 py-1.5 text-ink transition-colors duration-200 hover:bg-brand">App móvil</li>
+                  <li class="border-2 border-ink px-3 py-1.5 text-ink transition-colors duration-200 hover:bg-brand">Web</li>
+                  <li class="border-2 border-ink px-3 py-1.5 text-ink transition-colors duration-200 hover:bg-brand">Bot WhatsApp + IA</li>
+                  <li class="border-2 border-ink px-3 py-1.5 text-ink transition-colors duration-200 hover:bg-brand">Notificaciones automáticas</li>
+                </ul>
+              </div>
+              <!-- Mini mockup de celular -->
+              <div class="animate-float mx-auto hidden w-32 shrink-0 sm:block" style="--r:3deg" aria-hidden="true">
+                <div class="overflow-hidden rounded-2xl border-4 border-ink bg-white shadow-xl shadow-ink/20">
+                  <div class="flex items-center gap-1.5 bg-ink px-2.5 py-2">
+                    <span class="h-3 w-3 bg-brand"></span>
+                    <span class="h-1.5 w-12 rounded-full bg-white/30"></span>
+                  </div>
+                  <div class="space-y-2 p-2.5">
+                    <div class="h-10 bg-brand"></div>
+                    <div class="h-1.5 w-4/5 rounded-full bg-line"></div>
+                    <div class="h-1.5 w-3/5 rounded-full bg-line"></div>
+                    <div class="flex gap-1.5 pt-1">
+                      <span class="h-8 flex-1 bg-smoke"></span>
+                      <span class="h-8 flex-1 bg-smoke"></span>
+                    </div>
+                    <div class="h-1.5 w-4/5 rounded-full bg-line"></div>
+                    <div class="h-6 bg-ink"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </article>
-          <article class="flex flex-col justify-center rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-8 text-center">
-            <p class="font-heading text-2xl font-bold text-white">Tu negocio puede ser el siguiente</p>
-            <p class="mx-auto mt-3 max-w-sm leading-relaxed text-gray-300">
-              Los primeros 10 clientes estrenan precio de lanzamiento y aparecen aquí, en nuestro portafolio.
-            </p>
-            <a
-              href={wa('Hola DeOne Labs, quiero ser de los primeros 10 clientes')}
-              target="_blank"
-              rel="noopener"
-              class="mx-auto mt-6 cursor-pointer rounded-xl bg-primary px-6 py-3 font-bold text-white transition-colors duration-200 hover:bg-indigo-500"
-            >
-              Quiero mi cupo
-            </a>
+          <article class="reveal card-lift relative flex flex-col justify-center bg-ink p-8 text-center" style="--d:.15s; --sc:#FFD600">
+            <div class="relative">
+              <div class="mx-auto mb-5 grid h-14 w-14 place-items-center bg-brand" aria-hidden="true">
+                <svg class="h-7 w-7 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.rocket} /></svg>
+              </div>
+              <p class="font-heading text-3xl uppercase leading-tight text-white">Tu negocio puede ser el siguiente</p>
+              <p class="mx-auto mt-4 max-w-sm font-medium leading-relaxed text-gray-300">
+                Los primeros 10 clientes estrenan precio de lanzamiento y aparecen aquí, en nuestro portafolio.
+              </p>
+              <a
+                href={wa('Hola DeOne Labs, quiero ser de los primeros 10 clientes')}
+                target="_blank"
+                rel="noopener"
+                class="btn btn-yellow btn-ripple mx-auto mt-7 inline-block rounded-2xl bg-brand px-7 py-3.5 font-bold text-ink"
+              >
+                Quiero mi cupo
+              </a>
+            </div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- FAQ -->
-    <section id="preguntas" class="scroll-mt-24 px-4 py-20">
+    <!-- FAQ: bloque amarillo -->
+    <section id="preguntas" class="scroll-mt-20 bg-brand px-4 py-24">
       <div class="mx-auto max-w-3xl">
-        <h2 class="text-center text-3xl font-bold tracking-tight text-white md:text-4xl">Preguntas frecuentes</h2>
-        <div class="mt-10 space-y-4">
-          <details class="group rounded-2xl border border-white/10 bg-panel/60 p-6">
-            <summary class="cursor-pointer list-none font-semibold text-white transition-colors duration-200 group-open:text-primary-soft">
-              ¿Por qué tan barato comparado con otras agencias?
-            </summary>
-            <p class="mt-3 leading-relaxed text-gray-300">
-              Porque nuestra infraestructura es propia y ultraeficiente, y trabajamos con plantillas
-              profesionales que personalizamos para ti. No pagas oficinas ni intermediarios: pagas el
-              trabajo y ya.
-            </p>
-          </details>
-          <details class="group rounded-2xl border border-white/10 bg-panel/60 p-6">
-            <summary class="cursor-pointer list-none font-semibold text-white transition-colors duration-200 group-open:text-primary-soft">
-              ¿Qué incluye la mensualidad?
-            </summary>
-            <p class="mt-3 leading-relaxed text-gray-300">
-              Hosting, dominio, certificado de seguridad (SSL), copias de seguridad, soporte por WhatsApp
-              y cambios menores de contenido. Un solo pago, sin sorpresas.
-            </p>
-          </details>
-          <details class="group rounded-2xl border border-white/10 bg-panel/60 p-6">
-            <summary class="cursor-pointer list-none font-semibold text-white transition-colors duration-200 group-open:text-primary-soft">
-              ¿Y si no me gusta el diseño?
-            </summary>
-            <p class="mt-3 leading-relaxed text-gray-300">
-              Te devolvemos la plata. Así de simple. Primero te mostramos el diseño, lo ajustamos contigo
-              y solo pagas el saldo cuando estés feliz con el resultado.
-            </p>
-          </details>
-          <details class="group rounded-2xl border border-white/10 bg-panel/60 p-6">
-            <summary class="cursor-pointer list-none font-semibold text-white transition-colors duration-200 group-open:text-primary-soft">
-              ¿El bot de WhatsApp usa mi mismo número?
-            </summary>
-            <p class="mt-3 leading-relaxed text-gray-300">
-              Sí. El bot atiende desde tu número de WhatsApp, con tu nombre y tu logo. Tú sigues pudiendo
-              entrar a la conversación cuando quieras.
-            </p>
-          </details>
-          <details class="group rounded-2xl border border-white/10 bg-panel/60 p-6">
-            <summary class="cursor-pointer list-none font-semibold text-white transition-colors duration-200 group-open:text-primary-soft">
-              ¿Hay permanencia mínima?
-            </summary>
-            <p class="mt-3 leading-relaxed text-gray-300">
-              No. Si un mes decides no seguir, no sigues. Tu dominio es tuyo y te lo entregamos.
-            </p>
-          </details>
+        <h2 class="reveal bar-under bar-center text-center text-4xl uppercase leading-tight text-ink md:text-6xl">Preguntas frecuentes</h2>
+        <div class="mt-12 space-y-4">
+          {
+            faqs.map((f, i) => (
+              <div class="faq-item reveal border-4 border-ink bg-white" style={`--d:${i * 0.07}s`}>
+                <h3>
+                  <button
+                    type="button"
+                    class="faq-trigger flex w-full cursor-pointer items-center justify-between gap-4 p-6 text-left font-body text-base font-extrabold text-ink md:text-lg"
+                    aria-expanded="false"
+                    aria-controls={`faq-panel-${i}`}
+                    id={`faq-trigger-${i}`}
+                  >
+                    {f.q}
+                    <span class="faq-icon text-ink" aria-hidden="true"></span>
+                  </button>
+                </h3>
+                <div class="faq-panel" id={`faq-panel-${i}`} role="region" aria-labelledby={`faq-trigger-${i}`}>
+                  <div>
+                    <p class="px-6 pb-6 font-medium leading-relaxed text-ink/70">{f.a}</p>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
         </div>
       </div>
     </section>
 
-    <!-- CTA final -->
-    <section class="px-4 pb-24 pt-8">
-      <div class="mx-auto max-w-4xl rounded-3xl border border-primary/40 bg-gradient-to-br from-primary/20 to-panel p-10 text-center md:p-14">
-        <h2 class="text-3xl font-bold tracking-tight text-white md:text-4xl">
+    <!-- CTA final: bloque crema -->
+    <section class="relative overflow-hidden bg-paper px-4 py-24">
+      <p class="pointer-events-none absolute -bottom-14 -right-4 select-none font-heading text-[13rem] leading-none text-ink/5" aria-hidden="true">DO</p>
+      <div class="relative mx-auto max-w-4xl text-center">
+        <h2 class="reveal text-4xl uppercase leading-[1.02] text-ink md:text-6xl">
           Hablemos de tu negocio, sin compromiso
         </h2>
-        <p class="mx-auto mt-4 max-w-xl leading-relaxed text-gray-300">
+        <p class="reveal mx-auto mt-6 max-w-xl font-medium leading-relaxed text-ink/70" style="--d:.1s">
           Cuéntanos qué necesitas y en menos de 24 horas te mandamos una propuesta con precio cerrado.
           La cotización es gratis y no te compromete a nada.
         </p>
@@ -412,7 +566,8 @@ const iconPaths = {
           href={wa('Hola DeOne Labs, quiero una cotización gratis para mi negocio')}
           target="_blank"
           rel="noopener"
-          class="mt-8 inline-flex cursor-pointer items-center gap-2 rounded-xl bg-wa px-8 py-4 text-lg font-bold text-ink transition-colors duration-200 hover:bg-green-400"
+          class="btn btn-dark btn-ripple reveal mt-10 inline-flex items-center gap-3 rounded-2xl bg-ink px-10 py-5 text-lg font-bold text-brand"
+          style="--d:.2s"
         >
           <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={iconPaths.whatsapp}></path></svg>
           Cotizar gratis por WhatsApp
@@ -420,12 +575,245 @@ const iconPaths = {
       </div>
     </section>
 
-    <footer class="border-t border-white/10 px-4 py-10">
-      <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-sm text-gray-400 md:flex-row">
-        <p class="font-heading font-bold text-white"><span class="text-primary-soft">◆</span> DeOne Labs</p>
-        <p>Páginas web · Bots con IA · Correo corporativo · Automatizaciones</p>
-        <p>Colombia · {new Date().getFullYear()}</p>
+    <!-- Footer: barra negra delgada -->
+    <footer class="bg-ink px-4 py-8">
+      <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 text-xs font-bold uppercase tracking-widest text-gray-400 md:flex-row">
+        <p class="flex items-center gap-2.5 font-heading text-base uppercase text-white">
+          <span class="grid h-8 w-8 place-items-center bg-brand font-heading text-xs text-ink" aria-hidden="true">DO</span>
+          DeOne Labs
+        </p>
+        <p class="text-center normal-case">Páginas web · Bots con IA · Correo corporativo · Automatizaciones</p>
+        <p class="flex items-center gap-2">
+          <span class="inline-block h-1.5 w-1.5 bg-brand" aria-hidden="true"></span>
+          Colombia · {new Date().getFullYear()}
+        </p>
       </div>
     </footer>
+
+    <script>
+      // Animaciones siempre activas (decisión de la marca): Windows con las
+      // animaciones del sistema apagadas activa prefers-reduced-motion solo,
+      // y eso dejaba la web sin cortina, sin reveals y con scroll cortado.
+      const reduced = false;
+
+      /* ---- Navbar: encoge al hacer scroll y se oculta al bajar ---- */
+      const nav = document.getElementById('site-nav');
+      const header = document.getElementById('site-header');
+      const canHover = window.matchMedia('(hover: hover)').matches;
+      let lastY = window.scrollY;
+      const onScroll = () => {
+        const y = window.scrollY;
+        nav.classList.toggle('nav-small', y > 24);
+        if (y <= 80) {
+          // Cerca del inicio siempre visible
+          header.classList.remove('nav-hidden');
+        } else if (y > lastY + 4 && y > 140) {
+          // Bajando: se oculta
+          header.classList.add('nav-hidden');
+        } else if (!canHover && y < lastY - 6) {
+          // En táctil (sin mouse) reaparece al subir
+          header.classList.remove('nav-hidden');
+        }
+        lastY = y;
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      // Reaparece al pasar el mouse por la parte superior de la página
+      document.addEventListener('mousemove', (e) => {
+        if (e.clientY < 90) header.classList.remove('nav-hidden');
+      });
+      // Y al navegar con teclado hacia el menú
+      header.addEventListener('focusin', () => header.classList.remove('nav-hidden'));
+
+      /* ---- Scroll fluido en todos los atajos (#anclas) ----
+         Animación propia con requestAnimationFrame: no depende del
+         scroll suave nativo del navegador (que puede saltar de golpe). */
+      let scrollAnim = null;
+      const cancelScrollAnim = () => {
+        if (scrollAnim) {
+          cancelAnimationFrame(scrollAnim);
+          scrollAnim = null;
+        }
+      };
+      window.addEventListener('wheel', cancelScrollAnim, { passive: true });
+      window.addEventListener('touchstart', cancelScrollAnim, { passive: true });
+
+      const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+      const smoothScrollTo = (targetY) => {
+        cancelScrollAnim();
+        const startY = window.scrollY;
+        const diff = targetY - startY;
+        if (Math.abs(diff) < 2) return;
+        // Duración proporcional a la distancia, entre 500ms y 1100ms
+        const duration = Math.min(1100, Math.max(500, Math.abs(diff) * 0.35));
+        let start;
+        const step = (ts) => {
+          if (start === undefined) start = ts;
+          const p = Math.min((ts - start) / duration, 1);
+          window.scrollTo(0, startY + diff * easeInOutCubic(p));
+          scrollAnim = p < 1 ? requestAnimationFrame(step) : null;
+        };
+        scrollAnim = requestAnimationFrame(step);
+      };
+
+      const NAV_OFFSET = 84; // espacio para el navbar fijo
+      document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener('click', (e) => {
+          const id = a.getAttribute('href').slice(1);
+          const target = id ? document.getElementById(id) : null;
+          if (id && !target) return;
+          e.preventDefault();
+          const top = target
+            ? target.getBoundingClientRect().top + window.scrollY - NAV_OFFSET
+            : 0;
+          smoothScrollTo(Math.max(0, top));
+          history.pushState(null, '', id ? `#${id}` : window.location.pathname);
+        });
+      });
+
+      /* ---- Scroll reveal (arranca cuando la cortina abre) ---- */
+      const startReveals = () => {
+        const revealEls = document.querySelectorAll('.reveal');
+        if (reduced) {
+          revealEls.forEach((el) => el.classList.add('revealed'));
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('revealed');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+        );
+        revealEls.forEach((el) => io.observe(el));
+      };
+
+      /* ---- Cortina de entrada (en cada carga de la página) ---- */
+      const curtain = document.getElementById('curtain');
+      if (curtain) {
+        document.body.style.overflow = 'hidden';
+        const HOLD = reduced ? 150 : 1600; // tiempo mostrando la imagen de marca
+        setTimeout(() => {
+          curtain.classList.add('open');
+          setTimeout(
+            () => {
+              curtain.remove();
+              document.body.style.overflow = '';
+              startReveals();
+            },
+            reduced ? 50 : 1000
+          );
+        }, HOLD);
+      } else {
+        startReveals();
+      }
+
+      /* ---- Parallax suave en el hero ---- */
+      const hero = document.getElementById('hero');
+      const layers = document.querySelectorAll('[data-depth]');
+      if (hero && !reduced && window.matchMedia('(pointer: fine)').matches) {
+        hero.addEventListener('mousemove', (e) => {
+          const r = hero.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          layers.forEach((l) => {
+            const d = Number(l.dataset.depth);
+            l.style.transform = `translate(${(-x * d).toFixed(1)}px, ${(-y * d).toFixed(1)}px)`;
+          });
+        });
+      }
+
+      /* ---- Ripple en botones ---- */
+      document.querySelectorAll('.btn-ripple').forEach((btn) => {
+        btn.addEventListener('pointerdown', (e) => {
+          const r = btn.getBoundingClientRect();
+          const s = document.createElement('span');
+          const size = Math.max(r.width, r.height) * 2;
+          // Ripple oscuro sobre fondos claros, claro sobre fondo negro
+          const light = btn.classList.contains('bg-ink');
+          s.className = 'ripple' + (light ? '' : ' ripple-dark');
+          s.style.width = s.style.height = `${size}px`;
+          s.style.left = `${e.clientX - r.left - size / 2}px`;
+          s.style.top = `${e.clientY - r.top - size / 2}px`;
+          btn.appendChild(s);
+          setTimeout(() => s.remove(), 700);
+        });
+      });
+
+      /* ---- Acordeones FAQ ---- */
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach((item) => {
+        const btn = item.querySelector('.faq-trigger');
+        btn.addEventListener('click', () => {
+          const isOpen = item.classList.contains('open');
+          faqItems.forEach((other) => {
+            other.classList.remove('open');
+            other.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+          });
+          if (!isOpen) {
+            item.classList.add('open');
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+
+      /* ---- Chat animado del bot ---- */
+      const chatBox = document.getElementById('chat-demo');
+      if (chatBox) {
+        const msgs = [...chatBox.querySelectorAll('[data-msg]')];
+        const note = chatBox.querySelector('[data-chat-note]');
+        const typing = chatBox.querySelector('#chat-typing');
+        const scrollArea = chatBox.querySelector('#chat-scroll');
+        const scrollDown = () => {
+          scrollArea.scrollTo({ top: scrollArea.scrollHeight, behavior: 'smooth' });
+        };
+        const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+        const play = async () => {
+          await wait(600);
+          for (const m of msgs) {
+            if (m.dataset.msg === 'bot') {
+              m.before(typing);
+              typing.classList.remove('is-hidden');
+              typing.classList.add('msg-in');
+              scrollDown();
+              await wait(1500);
+              typing.classList.add('is-hidden');
+            }
+            m.classList.remove('is-hidden');
+            m.classList.add('msg-in');
+            scrollDown();
+            await wait(m.dataset.msg === 'bot' ? 1000 : 1200);
+          }
+          typing.remove();
+          note.classList.remove('is-hidden');
+          note.classList.add('msg-in');
+          scrollDown();
+        };
+
+        if (reduced) {
+          msgs.forEach((m) => m.classList.remove('is-hidden'));
+          note.classList.remove('is-hidden');
+          typing.remove();
+        } else {
+          const co = new IntersectionObserver(
+            (entries) => {
+              if (entries.some((e) => e.isIntersecting)) {
+                co.disconnect();
+                play();
+              }
+            },
+            { threshold: 0.45 }
+          );
+          co.observe(chatBox);
+        }
+      }
+    </script>
   </body>
 </html>
