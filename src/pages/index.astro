@@ -1,95 +1,180 @@
 ---
 import '../styles/global.css';
 
-// TODO: cambiar al número comercial definitivo de DeOne Labs
-const WHATSAPP = '573108870800';
+const WHATSAPP = '573007474302';
 const wa = (msg) => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+
+// TRM aproximada usada para el toggle COP/USD (ver PLAN-COMERCIAL.md, ~4.000 COP/USD).
+const USD_RATE = 4000;
+const fmtCOP = (n) => `$${n.toLocaleString('es-CO')}`;
+const fmtUSD = (n) => `$${Math.round(n / USD_RATE).toLocaleString('en-US')}`;
 
 const servicios = [
   {
     nombre: 'Landing Express',
+    nombreEN: 'Landing Express',
     desc: 'Tu negocio con página propia en una semana. Hasta 5 secciones, lista para vender.',
-    precio: '$390.000',
-    mes: '$39.000/mes',
+    descEN: 'Your business online in a week. Up to 5 sections, ready to sell.',
+    precioCOP: 390000,
+    precioSufijo: '',
+    precioSufijoEN: '',
+    mesCOP: 39000,
+    mesSufijo: '/mes',
+    mesSufijoEN: '/mo',
     mercado: 'Otros cobran $500.000 – $1.200.000 + hosting aparte',
+    mercadoEN: 'Others charge $500,000 – $1,200,000 COP + hosting separately',
     incluye: ['Dominio .com y SSL incluidos', 'Hosting y soporte incluidos', '1 cambio de contenido al mes', 'Entrega en 5–7 días'],
+    incluyeEN: ['Domain .com and SSL included', 'Hosting and support included', '1 content change per month', 'Delivered in 5–7 days'],
     icon: 'bolt',
   },
   {
     nombre: 'Web Corporativa',
+    nombreEN: 'Corporate Website',
     desc: 'Sitio completo de 5 a 8 páginas para empresas que quieren verse serias en internet.',
-    precio: '$990.000',
-    mes: '$59.000/mes',
+    descEN: 'Full 5–8 page site for businesses that want to look serious online.',
+    precioCOP: 990000,
+    precioSufijo: '',
+    precioSufijoEN: '',
+    mesCOP: 59000,
+    mesSufijo: '/mes',
+    mesSufijoEN: '/mo',
     mercado: 'Otros cobran $2.500.000 – $6.000.000',
+    mercadoEN: 'Others charge $2,500,000 – $6,000,000 COP',
     incluye: ['5–8 páginas + blog', 'SEO básico para Google', 'Correo de contacto', 'Dominio, SSL y hosting incluidos'],
+    incluyeEN: ['5–8 pages + blog', 'Basic SEO for Google', 'Contact email', 'Domain, SSL and hosting included'],
     icon: 'building',
   },
   {
     nombre: 'Tienda Online',
+    nombreEN: 'Online Store',
     desc: 'Vende por internet con pagos en línea: Wompi, MercadoPago o contraentrega.',
-    precio: '$1.690.000',
-    mes: '$129.000/mes',
+    descEN: 'Sell online with digital payments: Wompi, MercadoPago or cash on delivery.',
+    precioCOP: 1690000,
+    precioSufijo: '',
+    precioSufijoEN: '',
+    mesCOP: 129000,
+    mesSufijo: '/mes',
+    mesSufijoEN: '/mo',
     mercado: 'Otros cobran $1.800.000 – $15.000.000',
+    mercadoEN: 'Others charge $1,800,000 – $15,000,000 COP',
     incluye: ['Hasta 100 productos', 'Pasarela de pagos colombiana', 'Panel para administrar tú mismo', 'Capacitación incluida'],
+    incluyeEN: ['Up to 100 products', 'Colombian payment gateway', 'Self-service admin panel', 'Training included'],
     icon: 'cart',
   },
   {
     nombre: 'Correo Corporativo',
+    nombreEN: 'Corporate Email',
     desc: 'Deja de escribir desde @gmail.com: correo con el nombre de tu empresa.',
-    precio: 'Sin costo de instalación',
-    mes: '$20.000/usuario/mes',
+    descEN: 'Stop writing from @gmail.com: email with your company name.',
+    precioCOP: null,
+    precioTextoCOP: 'Sin costo de instalación',
+    precioTextoEN: 'No setup cost',
+    mesCOP: 20000,
+    mesSufijo: '/usuario/mes',
+    mesSufijoEN: '/user/mo',
     mercado: 'Google Workspace cuesta ~$27.000',
+    mercadoEN: 'Google Workspace costs ~$27,000 COP',
     incluye: ['tunombre@tuempresa.com', '50 GB por buzón', 'Webmail + celular', 'Migración incluida'],
+    incluyeEN: ['yourname@yourcompany.com', '50 GB per mailbox', 'Webmail + mobile', 'Migration included'],
     icon: 'mail',
   },
   {
     nombre: 'Automatizaciones',
+    nombreEN: 'Automations',
     desc: 'Que el sistema trabaje por ti: pedidos, recordatorios y reportes automáticos.',
-    precio: '$350.000/flujo',
-    mes: '$49.000/mes',
+    descEN: 'Let the system work for you: orders, reminders and automatic reports.',
+    precioCOP: 350000,
+    precioSufijo: '/flujo',
+    precioSufijoEN: '/flow',
+    mesCOP: 49000,
+    mesSufijo: '/mes',
+    mesSufijoEN: '/mo',
     mercado: 'Por fuera se cotiza en $1.000.000+',
+    mercadoEN: 'Elsewhere it’s quoted at $1,000,000+ COP',
     incluye: ['Pedidos → WhatsApp', 'Recordatorios de citas', 'Reportes a Excel automáticos', 'A tu medida'],
+    incluyeEN: ['Orders → WhatsApp', 'Appointment reminders', 'Automatic Excel reports', 'Custom-built'],
     icon: 'gears',
   },
   {
     nombre: 'Pack Emprendedor',
+    nombreEN: 'Starter Pack',
     desc: 'Todo lo que necesita un negocio que arranca: página + correo + bot de WhatsApp.',
-    precio: '$1.590.000',
-    mes: '$189.000/mes',
+    descEN: 'Everything a new business needs: website + email + WhatsApp bot.',
+    precioCOP: 1590000,
+    precioSufijo: '',
+    precioSufijoEN: '',
+    mesCOP: 189000,
+    mesSufijo: '/mes',
+    mesSufijoEN: '/mo',
     mercado: 'Por separado: $1.880.000 + $258.000/mes',
+    mercadoEN: 'Separately: $1,880,000 + $258,000/mo COP',
     incluye: ['Landing Express completa', '2 correos corporativos', 'Bot de WhatsApp básico', 'Ahorra $290.000 + $69.000/mes'],
+    incluyeEN: ['Full Landing Express', '2 corporate emails', 'Basic WhatsApp bot', 'Save $290,000 + $69,000/mo COP'],
     icon: 'rocket',
     destacado: true,
   },
-];
+].map((s) => ({
+  ...s,
+  precioDisplayCOP: s.precioCOP != null ? `${fmtCOP(s.precioCOP)}${s.precioSufijo || ''}` : s.precioTextoCOP,
+  precioDisplayUSD: s.precioCOP != null ? `${fmtUSD(s.precioCOP)}${s.precioSufijoEN || s.precioSufijo || ''}` : s.precioTextoEN,
+  mesDisplayCOP: `${fmtCOP(s.mesCOP)}${s.mesSufijo || '/mes'}`,
+  mesDisplayUSD: `${fmtUSD(s.mesCOP)}${s.mesSufijoEN || '/mo'}`,
+}));
+
+const BOT_SETUP_COP = 1490000;
+const BOT_MES_COP = 179000;
+const botSetupCOP = fmtCOP(BOT_SETUP_COP);
+const botSetupUSD = fmtUSD(BOT_SETUP_COP);
+const botMesCOP = `${fmtCOP(BOT_MES_COP)}/mes`;
+const botMesUSD = `${fmtUSD(BOT_MES_COP)}/mo`;
 
 const chat = [
-  { from: 'cliente', text: '¿Tienen pintura blanca tipo 1? ¿A cómo el galón?' },
-  { from: 'bot', text: '¡Hola! 👋 Sí tenemos. El galón tipo 1 está a $68.000 y el garrafón a $198.000. ¿Te lo aparto o te lo enviamos a domicilio?' },
-  { from: 'cliente', text: 'A domicilio, estoy en el barrio Centro' },
-  { from: 'bot', text: 'Perfecto ✅ Domicilio al Centro: $5.000, llega hoy antes de las 5pm. Me confirmas nombre y dirección y queda pedido.' },
+  { from: 'cliente', text: '¿Tienen pintura blanca tipo 1? ¿A cómo el galón?', textEN: 'Do you have white paint type 1? How much per gallon?' },
+  {
+    from: 'bot',
+    text: '¡Hola! 👋 Sí tenemos. El galón tipo 1 está a $68.000 y el garrafón a $198.000. ¿Te lo aparto o te lo enviamos a domicilio?',
+    textEN: 'Hi! 👋 Yes, we do. The gallon (type 1) is $68,000 COP and the 5-gallon jug is $198,000 COP. Want me to set it aside or deliver it?',
+  },
+  { from: 'cliente', text: 'A domicilio, estoy en el barrio Centro', textEN: 'Delivery please, I’m in the Centro neighborhood' },
+  {
+    from: 'bot',
+    text: 'Perfecto ✅ Domicilio al Centro: $5.000, llega hoy antes de las 5pm. Me confirmas nombre y dirección y queda pedido.',
+    textEN: 'Perfect ✅ Delivery to Centro: $5,000 COP, arrives today before 5pm. Confirm your name and address and it’s ordered.',
+  },
 ];
+const chatNoteES = 'El bot respondió en 2 segundos.';
+const chatNoteEN = 'The bot replied in 2 seconds.';
 
 const faqs = [
   {
     q: '¿Por qué tan barato comparado con otras agencias?',
+    qEN: 'Why so cheap compared to other agencies?',
     a: 'Porque nuestra infraestructura es propia y ultraeficiente, y trabajamos con plantillas profesionales que personalizamos para ti. No pagas oficinas ni intermediarios: pagas el trabajo y ya.',
+    aEN: 'Because our infrastructure is our own and ultra-efficient, and we work with professional templates we customize for you. You don’t pay for offices or middlemen: you just pay for the work.',
   },
   {
     q: '¿Qué incluye la mensualidad?',
+    qEN: 'What does the monthly fee include?',
     a: 'Hosting, dominio, certificado de seguridad (SSL), copias de seguridad, soporte por WhatsApp y cambios menores de contenido. Un solo pago, sin sorpresas.',
+    aEN: 'Hosting, domain, SSL security certificate, backups, WhatsApp support and minor content changes. One single payment, no surprises.',
   },
   {
     q: '¿Y si no me gusta el diseño?',
+    qEN: 'What if I don’t like the design?',
     a: 'Te devolvemos la plata. Así de simple. Primero te mostramos el diseño, lo ajustamos contigo y solo pagas el saldo cuando estés feliz con el resultado.',
+    aEN: 'We refund your money. That simple. We show you the design first, adjust it with you, and you only pay the balance once you’re happy with the result.',
   },
   {
     q: '¿El bot de WhatsApp usa mi mismo número?',
+    qEN: 'Does the WhatsApp bot use my own number?',
     a: 'Sí. El bot atiende desde tu número de WhatsApp, con tu nombre y tu logo. Tú sigues pudiendo entrar a la conversación cuando quieras.',
+    aEN: 'Yes. The bot answers from your own WhatsApp number, with your name and logo. You can still jump into the conversation anytime.',
   },
   {
     q: '¿Hay permanencia mínima?',
+    qEN: 'Is there a minimum contract period?',
     a: 'No. Si un mes decides no seguir, no sigues. Tu dominio es tuyo y te lo entregamos.',
+    aEN: 'No. If you decide to stop any month, you stop. Your domain is yours and we hand it over.',
   },
 ];
 
@@ -113,6 +198,8 @@ const iconPaths = {
   mic: 'M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3zM19 10v2a7 7 0 01-14 0v-2M12 19v4',
   plus: 'M12 5v14M5 12h14',
   dots: 'M12 5h.01M12 12h.01M12 19h.01',
+  globe: 'M12 2a10 10 0 100 20 10 10 0 000-20zM2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20',
+  coin: 'M12 2a10 10 0 100 20 10 10 0 000-20zM12 6v12M9 9h4.5a2 2 0 010 4H9m0-4v4m0-4H8m1 4h5.5a2 2 0 010 4H9',
 };
 ---
 
@@ -136,11 +223,14 @@ const iconPaths = {
       <div class="curtain-content px-6 text-center">
         <p class="font-heading text-7xl leading-none tracking-tight text-ink md:text-8xl">DO</p>
         <p class="mt-1 text-[0.65rem] font-extrabold tracking-[0.4em] text-ink md:text-xs">DE ONE</p>
-        <p class="mx-auto mt-10 max-w-md text-2xl font-medium leading-snug text-ink/90 md:text-3xl">
-          Aquí pasamos de<br />pensarlo… a, la
-        </p>
-        <p class="mt-4 font-heading text-4xl uppercase tracking-tight text-ink md:text-5xl">Acción</p>
-        <p class="mt-6 text-sm text-ink/80 md:text-base">(lo único que hará tus sueños realidad)</p>
+        <p
+          class="mx-auto mt-10 max-w-md text-2xl font-medium leading-snug text-ink/90 md:text-3xl"
+          data-es-html="Aquí pasamos de&lt;br /&gt;pensarlo… a, la"
+          data-en-html="Here we go from&lt;br /&gt;thinking it… to"
+          set:html="Aquí pasamos de<br />pensarlo… a, la"
+        />
+        <p class="mt-4 font-heading text-4xl uppercase tracking-tight text-ink md:text-5xl" data-es="Acción" data-en="Action">Acción</p>
+        <p class="mt-6 text-sm text-ink/80 md:text-base" data-es="(lo único que hará tus sueños realidad)" data-en="(the only thing that will make your dreams real)">(lo único que hará tus sueños realidad)</p>
       </div>
     </div>
 
@@ -148,7 +238,7 @@ const iconPaths = {
     <header id="site-header" class="fixed inset-x-0 top-0 z-50">
       <nav
         id="site-nav"
-        class="grid grid-cols-[auto_1fr_auto] items-center gap-4 border-b-4 border-ink bg-brand px-4 md:grid-cols-3 md:px-8"
+        class="grid grid-cols-[auto_1fr_auto] items-center gap-3 border-b-4 border-ink bg-brand px-4 md:grid-cols-3 md:px-8"
         aria-label="Principal"
       >
         <a href="#" class="flex items-center gap-2.5 justify-self-start">
@@ -156,19 +246,42 @@ const iconPaths = {
           <span class="font-heading text-lg uppercase tracking-wide text-ink">DeOne Labs</span>
         </a>
         <div class="hidden items-center justify-center gap-8 text-xs font-extrabold uppercase tracking-widest text-ink md:flex">
-          <a href="#servicios" class="nav-link">Servicios</a>
-          <a href="#bot" class="nav-link">Bot con IA</a>
-          <a href="#portafolio" class="nav-link">Portafolio</a>
-          <a href="#preguntas" class="nav-link">Preguntas</a>
+          <a href="#servicios" class="nav-link" data-es="Servicios" data-en="Services">Servicios</a>
+          <a href="#bot" class="nav-link" data-es="Bot con IA" data-en="AI Bot">Bot con IA</a>
+          <a href="#portafolio" class="nav-link" data-es="Portafolio" data-en="Portfolio">Portafolio</a>
+          <a href="#preguntas" class="nav-link" data-es="Preguntas" data-en="FAQ">Preguntas</a>
         </div>
-        <a
-          href={wa('Hola DeOne Labs, quiero información sobre sus servicios')}
-          class="btn btn-dark btn-ripple justify-self-end rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-white"
-          target="_blank"
-          rel="noopener"
-        >
-          Escríbenos
-        </a>
+        <div class="flex items-center gap-2 justify-self-end">
+          <button
+            id="lang-toggle"
+            type="button"
+            class="btn btn-ripple grid h-9 w-9 place-items-center rounded-full border-2 border-ink bg-white text-[0.65rem] font-extrabold uppercase text-ink"
+            aria-label="Cambiar idioma / Switch language"
+            title="Español / English"
+          >
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d={iconPaths.globe} /></svg>
+            <span class="sr-only" data-lang-label>ES</span>
+          </button>
+          <button
+            id="currency-toggle"
+            type="button"
+            class="btn btn-ripple grid h-9 place-items-center rounded-full border-2 border-ink bg-white px-2.5 text-[0.65rem] font-extrabold uppercase text-ink"
+            aria-label="Cambiar moneda / Switch currency"
+            title="COP / USD"
+          >
+            <span data-currency-label>COP</span>
+          </button>
+          <a
+            href={wa('Hola DeOne Labs, quiero información sobre sus servicios')}
+            class="btn btn-dark btn-ripple rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-white"
+            target="_blank"
+            rel="noopener"
+            data-es="Escríbenos"
+            data-en="Message us"
+          >
+            Escríbenos
+          </a>
+        </div>
       </nav>
     </header>
 
@@ -216,15 +329,22 @@ const iconPaths = {
       <div class="relative mx-auto w-full max-w-6xl text-center">
         <p class="reveal mb-8 inline-flex items-center gap-2 border-2 border-ink bg-white px-4 py-1.5 text-xs font-extrabold uppercase tracking-wider text-ink">
           <span class="inline-block h-2 w-2 animate-pulse bg-ink" aria-hidden="true"></span>
-          Promo de lanzamiento: precio especial para los primeros 10 clientes
+          <span
+            data-es="Promo de lanzamiento: precio especial para los primeros 10 clientes"
+            data-en="Launch promo: special price for the first 10 clients"
+          >Promo de lanzamiento: precio especial para los primeros 10 clientes</span>
         </p>
         <h1 class="reveal mx-auto max-w-5xl text-5xl uppercase leading-[0.95] text-ink sm:text-7xl md:text-8xl" style="--d:.1s">
-          Tu negocio en internet, <span class="inline-block bg-ink px-3 text-brand">todo incluido</span>, sin letra pequeña
+          <span data-es="Tu negocio en internet," data-en="Your business online,">Tu negocio en internet,</span>
+          <span class="inline-block bg-ink px-3 text-brand" data-es="todo incluido" data-en="all inclusive">todo incluido</span><span data-es=", sin letra pequeña" data-en=", no fine print">, sin letra pequeña</span>
         </h1>
         <p class="reveal mx-auto mt-8 max-w-2xl text-lg font-medium leading-relaxed text-ink/80" style="--d:.2s">
-          Páginas web desde <strong class="text-ink">$390.000</strong>, bots de WhatsApp con inteligencia
-          artificial que venden por ti 24/7, correo corporativo y automatizaciones. Dominio, hosting,
-          SSL y soporte <strong class="text-ink">incluidos en un solo precio</strong>.
+          <span data-es="Páginas web desde" data-en="Websites starting at">Páginas web desde</span>
+          <strong class="text-ink" data-cop={servicios[0].precioDisplayCOP} data-usd={servicios[0].precioDisplayUSD}>{servicios[0].precioDisplayCOP}</strong><span
+            data-es=", bots de WhatsApp con inteligencia artificial que venden por ti 24/7, correo corporativo y automatizaciones. Dominio, hosting, SSL y soporte"
+            data-en=", AI-powered WhatsApp bots that sell for you 24/7, corporate email and automations. Domain, hosting, SSL and support"
+          >, bots de WhatsApp con inteligencia artificial que venden por ti 24/7, correo corporativo y automatizaciones. Dominio, hosting, SSL y soporte</span>
+          <strong class="text-ink" data-es="incluidos en un solo precio" data-en="included in a single price">incluidos en un solo precio</strong>.
         </p>
         <div class="reveal mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row" style="--d:.3s">
           <a
@@ -234,27 +354,29 @@ const iconPaths = {
             class="btn btn-dark btn-ripple inline-flex items-center gap-2 rounded-2xl bg-ink px-8 py-4 text-base font-bold text-white"
           >
             <svg class="h-5 w-5 text-yellow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={iconPaths.whatsapp}></path></svg>
-            Cotiza gratis por WhatsApp
+            <span data-es="Cotiza gratis por WhatsApp" data-en="Get a free quote on WhatsApp">Cotiza gratis por WhatsApp</span>
           </a>
           <a
             href="#servicios"
             class="btn btn-ripple rounded-2xl border-2 border-ink bg-white px-8 py-4 text-base font-bold text-ink"
+            data-es="Ver precios"
+            data-en="See prices"
           >
             Ver precios
           </a>
         </div>
         <dl class="mx-auto mt-16 grid max-w-4xl grid-cols-1 gap-0 sm:grid-cols-3">
           <div class="reveal bg-ink p-6 text-left" style="--d:.4s">
-            <dt class="text-xs font-bold uppercase tracking-widest text-white/60">Entrega de tu página</dt>
-            <dd class="mt-2 font-heading text-3xl uppercase text-yellow">5–7 días</dd>
+            <dt class="text-xs font-bold uppercase tracking-widest text-white/60" data-es="Entrega de tu página" data-en="Your site delivered in">Entrega de tu página</dt>
+            <dd class="mt-2 font-heading text-3xl uppercase text-yellow" data-es="5–7 días" data-en="5–7 days">5–7 días</dd>
           </div>
           <div class="reveal border-4 border-ink bg-white p-6 text-left" style="--d:.5s">
-            <dt class="text-xs font-bold uppercase tracking-widest text-mid">Costos escondidos</dt>
-            <dd class="mt-2 font-heading text-3xl uppercase text-ink">Cero</dd>
+            <dt class="text-xs font-bold uppercase tracking-widest text-mid" data-es="Costos escondidos" data-en="Hidden fees">Costos escondidos</dt>
+            <dd class="mt-2 font-heading text-3xl uppercase text-ink" data-es="Cero" data-en="Zero">Cero</dd>
           </div>
           <div class="reveal bg-paper p-6 text-left" style="--d:.6s">
-            <dt class="text-xs font-bold uppercase tracking-widest text-mid">Si no te gusta el diseño</dt>
-            <dd class="mt-2 font-heading text-3xl uppercase leading-none text-ink">Te devolvemos la plata</dd>
+            <dt class="text-xs font-bold uppercase tracking-widest text-mid" data-es="Si no te gusta el diseño" data-en="If you don't like the design">Si no te gusta el diseño</dt>
+            <dd class="mt-2 font-heading text-3xl uppercase leading-none text-ink" data-es="Te devolvemos la plata" data-en="We refund you">Te devolvemos la plata</dd>
           </div>
         </dl>
       </div>
@@ -264,9 +386,13 @@ const iconPaths = {
     <section id="servicios" class="scroll-mt-20 bg-ink px-4 py-24">
       <div class="mx-auto max-w-6xl">
         <h2 class="reveal bar-under bar-center text-center text-4xl uppercase leading-tight text-white md:text-6xl">
-          Servicios y precios <span class="inline-block bg-brand px-3 text-ink">claros</span>
+          <span data-es="Servicios y precios" data-en="Services and pricing">Servicios y precios</span>
+          <span class="inline-block bg-brand px-3 text-ink" data-es="claros" data-en="made clear">claros</span>
         </h2>
-        <p class="reveal mx-auto mt-8 max-w-2xl text-center font-medium leading-relaxed text-gray-300" style="--d:.1s">
+        <p class="reveal mx-auto mt-8 max-w-2xl text-center font-medium leading-relaxed text-gray-300" style="--d:.1s"
+          data-es="Un solo precio con todo incluido. Compara con lo que cobra el mercado y decide tú mismo."
+          data-en="One all-inclusive price. Compare it with what the market charges and decide for yourself."
+        >
           Un solo precio con todo incluido. Compara con lo que cobra el mercado y decide tú mismo.
         </p>
         <div class="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -279,7 +405,7 @@ const iconPaths = {
                 style={`--d:${(i % 3) * 0.1}s; --sc:${s.destacado ? '#ffffff' : '#FFD600'}`}
               >
                 {s.destacado && (
-                  <p class="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap bg-ink px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-brand">
+                  <p class="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap bg-ink px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-brand" data-es="El favorito" data-en="The favorite">
                     El favorito
                   </p>
                 )}
@@ -288,20 +414,20 @@ const iconPaths = {
                     <path d={iconPaths[s.icon]} />
                   </svg>
                 </div>
-                <h3 class="mt-5 text-2xl uppercase tracking-wide">{s.nombre}</h3>
-                <p class="mt-2 text-sm font-medium leading-relaxed text-ink/70">{s.desc}</p>
-                <p class="mt-6 font-heading text-4xl uppercase leading-none">{s.precio}</p>
-                <p class="mt-2 w-fit bg-ink px-2.5 py-1 text-xs font-extrabold uppercase tracking-wider text-brand">{s.mes}</p>
-                <p class="mt-2 text-xs font-semibold text-ink/50">{s.mercado}</p>
+                <h3 class="mt-5 text-2xl uppercase tracking-wide" data-es={s.nombre} data-en={s.nombreEN}>{s.nombre}</h3>
+                <p class="mt-2 text-sm font-medium leading-relaxed text-ink/70" data-es={s.desc} data-en={s.descEN}>{s.desc}</p>
+                <p class="mt-6 font-heading text-4xl uppercase leading-none" data-cop={s.precioDisplayCOP} data-usd={s.precioDisplayUSD}>{s.precioDisplayCOP}</p>
+                <p class="mt-2 w-fit bg-ink px-2.5 py-1 text-xs font-extrabold uppercase tracking-wider text-brand" data-cop={s.mesDisplayCOP} data-usd={s.mesDisplayUSD}>{s.mesDisplayCOP}</p>
+                <p class="mt-2 text-xs font-semibold text-ink/50" data-es={s.mercado} data-en={s.mercadoEN}>{s.mercado}</p>
                 <ul class="mt-6 space-y-2.5 text-sm font-semibold text-ink/85">
-                  {s.incluye.map((item) => (
+                  {s.incluye.map((item, j) => (
                     <li class="flex items-start gap-2.5">
                       <span class={`mt-0.5 grid h-4.5 w-4.5 shrink-0 place-items-center ${s.destacado ? 'bg-ink text-brand' : 'bg-brand text-ink'}`} aria-hidden="true">
                         <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
                           <path d={iconPaths.check} />
                         </svg>
                       </span>
-                      {item}
+                      <span data-es={item} data-en={s.incluyeEN[j]}>{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -312,6 +438,8 @@ const iconPaths = {
                   class={`btn btn-dark btn-ripple mt-7 rounded-2xl px-5 py-3 text-center text-sm font-bold ${
                     s.destacado ? 'bg-ink text-brand' : 'bg-ink text-white'
                   }`}
+                  data-es="Lo quiero"
+                  data-en="I want it"
                 >
                   Lo quiero
                 </a>
@@ -319,7 +447,10 @@ const iconPaths = {
             ))
           }
         </div>
-        <p class="reveal mt-10 text-center text-sm font-bold uppercase tracking-wider text-gray-400">
+        <p class="reveal mt-10 text-center text-sm font-bold uppercase tracking-wider text-gray-400"
+          data-es="Pago fácil: 50% para iniciar y 50% contra entrega · Nequi o Bancolombia · Sin permanencia"
+          data-en="Easy payment: 50% upfront, 50% on delivery · Nequi or Bancolombia · No lock-in"
+        >
           Pago fácil: 50% para iniciar y 50% contra entrega · Nequi o Bancolombia · Sin permanencia
         </p>
       </div>
@@ -332,12 +463,16 @@ const iconPaths = {
           <div class="mx-auto max-w-xl lg:mx-0 lg:ml-auto lg:max-w-[34rem] lg:pr-6">
             <p class="reveal mb-6 inline-flex items-center gap-2 border-2 border-yellow px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-yellow">
               <span class="inline-block h-2 w-2 animate-pulse bg-yellow" aria-hidden="true"></span>
-              Producto estrella
+              <span data-es="Producto estrella" data-en="Flagship product">Producto estrella</span>
             </p>
             <h2 class="reveal text-4xl uppercase leading-[1.02] text-white md:text-5xl">
-              Un empleado que atiende tu WhatsApp <span class="text-yellow">24 horas</span> y nunca pide vacaciones
+              <span data-es="Un empleado que atiende tu WhatsApp" data-en="An employee that answers your WhatsApp">Un empleado que atiende tu WhatsApp</span>
+              <span class="text-yellow" data-es="24 horas" data-en="24 hours a day">24 horas</span><span data-es=" y nunca pide vacaciones" data-en=" and never asks for vacation">y nunca pide vacaciones</span>
             </h2>
-            <p class="reveal mt-6 font-medium leading-relaxed text-gray-300" style="--d:.1s">
+            <p class="reveal mt-6 font-medium leading-relaxed text-gray-300" style="--d:.1s"
+              data-es="Nuestro bot con inteligencia artificial responde a tus clientes al instante, toma pedidos, agenda citas, responde preguntas de tu negocio y te pasa la conversación cuando de verdad se necesita una persona."
+              data-en="Our AI-powered bot answers your customers instantly, takes orders, books appointments, answers questions about your business, and hands off the conversation when a real person is truly needed."
+            >
               Nuestro bot con inteligencia artificial responde a tus clientes al instante, toma pedidos,
               agenda citas, responde preguntas de tu negocio y te pasa la conversación cuando de verdad
               se necesita una persona.
@@ -347,25 +482,25 @@ const iconPaths = {
                 <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center bg-yellow" aria-hidden="true">
                   <svg class="h-3.5 w-3.5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.check} /></svg>
                 </span>
-                <span><strong class="text-white">Sin costo por mensaje.</strong> Otros te cobran cada conversación; con nosotros es plano.</span>
+                <span data-es-html="&lt;strong class=&quot;text-white&quot;&gt;Sin costo por mensaje.&lt;/strong&gt; Otros te cobran cada conversación; con nosotros es plano." data-en-html="&lt;strong class=&quot;text-white&quot;&gt;No cost per message.&lt;/strong&gt; Others charge per conversation; with us it&#8217;s a flat rate."><strong class="text-white">Sin costo por mensaje.</strong> Otros te cobran cada conversación; con nosotros es plano.</span>
               </li>
               <li class="flex items-start gap-3">
                 <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center bg-yellow" aria-hidden="true">
                   <svg class="h-3.5 w-3.5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.check} /></svg>
                 </span>
-                <span><strong class="text-white">IA entrenada con tu negocio:</strong> precios, horarios, productos y preguntas frecuentes.</span>
+                <span data-es-html="&lt;strong class=&quot;text-white&quot;&gt;IA entrenada con tu negocio:&lt;/strong&gt; precios, horarios, productos y preguntas frecuentes." data-en-html="&lt;strong class=&quot;text-white&quot;&gt;AI trained on your business:&lt;/strong&gt; prices, hours, products and FAQs."><strong class="text-white">IA entrenada con tu negocio:</strong> precios, horarios, productos y preguntas frecuentes.</span>
               </li>
               <li class="flex items-start gap-3">
                 <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center bg-yellow" aria-hidden="true">
                   <svg class="h-3.5 w-3.5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.check} /></svg>
                 </span>
-                <span><strong class="text-white">Escala a humano</strong> cuando el cliente lo necesita, con aviso a tu celular.</span>
+                <span data-es-html="&lt;strong class=&quot;text-white&quot;&gt;Escala a humano&lt;/strong&gt; cuando el cliente lo necesita, con aviso a tu celular." data-en-html="&lt;strong class=&quot;text-white&quot;&gt;Escalates to a human&lt;/strong&gt; whenever the customer needs it, with an alert to your phone."><strong class="text-white">Escala a humano</strong> cuando el cliente lo necesita, con aviso a tu celular.</span>
               </li>
               <li class="flex items-start gap-3">
                 <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center bg-yellow" aria-hidden="true">
                   <svg class="h-3.5 w-3.5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.check} /></svg>
                 </span>
-                <span>Ya funciona en producción atendiendo usuarios reales todos los días.</span>
+                <span data-es="Ya funciona en producción atendiendo usuarios reales todos los días." data-en="Already running in production, serving real users every day.">Ya funciona en producción atendiendo usuarios reales todos los días.</span>
               </li>
             </ul>
             <div class="reveal mt-9 flex flex-col gap-5 sm:flex-row sm:items-center" style="--d:.2s">
@@ -376,12 +511,13 @@ const iconPaths = {
                 class="btn btn-yellow btn-ripple inline-flex items-center justify-center gap-2 rounded-2xl bg-brand px-8 py-4 font-bold text-ink"
               >
                 <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={iconPaths.whatsapp}></path></svg>
-                Pruébalo tú mismo
+                <span data-es="Pruébalo tú mismo" data-en="Try it yourself">Pruébalo tú mismo</span>
               </a>
               <p class="text-sm text-gray-300">
-                <span class="font-heading text-2xl text-white">$1.490.000</span> instalación +
-                <span class="font-extrabold text-yellow">$179.000/mes</span><br />
-                <span class="text-gray-500">Agencias grandes cobran $6 a $16 millones por esto</span>
+                <span class="font-heading text-2xl text-white" data-cop={botSetupCOP} data-usd={botSetupUSD}>{botSetupCOP}</span>
+                <span data-es="instalación +" data-en="setup +">instalación +</span>
+                <span class="font-extrabold text-yellow" data-cop={botMesCOP} data-usd={botMesUSD}>{botMesCOP}</span><br />
+                <span class="text-gray-500" data-es="Agencias grandes cobran $6 a $16 millones por esto" data-en="Big agencies charge $6 to $16 million COP for this">Agencias grandes cobran $6 a $16 millones por esto</span>
               </p>
             </div>
           </div>
@@ -397,10 +533,10 @@ const iconPaths = {
                   <svg class="h-5 w-5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.building} /></svg>
                 </span>
                 <div class="min-w-0 flex-1">
-                  <p class="truncate text-sm font-bold text-white">Ferretería El Tornillo</p>
+                  <p class="truncate text-sm font-bold text-white" data-es="Ferretería El Tornillo" data-en="El Tornillo Hardware Store">Ferretería El Tornillo</p>
                   <p class="flex items-center gap-1.5 text-xs text-gray-400">
                     <span class="inline-block h-1.5 w-1.5 rounded-full bg-[#25d366]" aria-hidden="true"></span>
-                    en línea
+                    <span data-es="en línea" data-en="online">en línea</span>
                   </p>
                 </div>
                 <div class="flex items-center gap-4 text-gray-400" aria-hidden="true">
@@ -415,6 +551,8 @@ const iconPaths = {
                   chat.map((m) => (
                     <p
                       data-msg={m.from}
+                      data-es={m.text}
+                      data-en={m.textEN}
                       class={`is-hidden w-fit max-w-[85%] rounded-2xl px-3.5 py-2.5 leading-snug text-gray-100 shadow ${
                         m.from === 'cliente'
                           ? 'ml-auto rounded-br-sm bg-[#005c4b]'
@@ -433,7 +571,7 @@ const iconPaths = {
                     <span class="typing-dot inline-block h-2 w-2 rounded-full bg-gray-400"></span>
                   </span>
                 </div>
-                <p data-chat-note class="is-hidden pt-1 text-center text-xs text-gray-500">El bot respondió en 2 segundos, un domingo a las 9pm.</p>
+                <p data-chat-note class="is-hidden pt-1 text-center text-xs text-gray-500" data-es={chatNoteES} data-en={chatNoteEN}>{chatNoteES}</p>
               </div>
               <!-- Barra inferior decorativa -->
               <div class="flex items-center gap-3 bg-[#1f2c34] px-4 py-3 text-gray-400" aria-hidden="true">
@@ -452,8 +590,11 @@ const iconPaths = {
     <!-- Portafolio: bloque crema -->
     <section id="portafolio" class="scroll-mt-20 bg-paper px-4 py-24">
       <div class="mx-auto max-w-6xl">
-        <h2 class="reveal bar-under bar-center text-center text-4xl uppercase leading-tight text-ink md:text-6xl">Ya lo hacemos en producción</h2>
-        <p class="reveal mx-auto mt-8 max-w-2xl text-center font-medium leading-relaxed text-ink/70" style="--d:.1s">
+        <h2 class="reveal bar-under bar-center text-center text-4xl uppercase leading-tight text-ink md:text-6xl" data-es="Ya lo hacemos en producción" data-en="We're already running this in production">Ya lo hacemos en producción</h2>
+        <p class="reveal mx-auto mt-8 max-w-2xl text-center font-medium leading-relaxed text-ink/70" style="--d:.1s"
+          data-es="No vendemos promesas: esta misma tecnología ya atiende usuarios reales."
+          data-en="We don't sell promises: this exact technology already serves real users."
+        >
           No vendemos promesas: esta misma tecnología ya atiende usuarios reales.
         </p>
         <div class="mt-14 grid gap-6 md:grid-cols-2">
@@ -461,17 +602,20 @@ const iconPaths = {
             <div class="relative flex flex-col gap-8 sm:flex-row sm:items-start">
               <div class="min-w-0 flex-1">
                 <h3 class="text-3xl uppercase text-ink">TerraEmpleo</h3>
-                <p class="mt-2 inline-block bg-brand px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-ink">App de empleo rural · Colombia</p>
-                <p class="mt-5 font-medium leading-relaxed text-ink/70">
+                <p class="mt-2 inline-block bg-brand px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-ink" data-es="App de empleo rural · Colombia" data-en="Rural employment app · Colombia">App de empleo rural · Colombia</p>
+                <p class="mt-5 font-medium leading-relaxed text-ink/70"
+                  data-es="Plataforma completa: app móvil, web y un bot de WhatsApp con inteligencia artificial que registra usuarios, publica vacantes, envía ofertas con foto y responde preguntas — todo automático, con escalado a asesores humanos."
+                  data-en="Full platform: mobile app, web and an AI-powered WhatsApp bot that registers users, posts job openings, sends offers with photos and answers questions — all automatic, with escalation to human advisors."
+                >
                   Plataforma completa: app móvil, web y un bot de WhatsApp con inteligencia artificial que
                   registra usuarios, publica vacantes, envía ofertas con foto y responde preguntas — todo
                   automático, con escalado a asesores humanos.
                 </p>
                 <ul class="mt-6 flex flex-wrap gap-2 text-[0.65rem] font-extrabold uppercase tracking-wider">
-                  <li class="border-2 border-ink px-3 py-1.5 text-ink transition-colors duration-200 hover:bg-brand">App móvil</li>
-                  <li class="border-2 border-ink px-3 py-1.5 text-ink transition-colors duration-200 hover:bg-brand">Web</li>
-                  <li class="border-2 border-ink px-3 py-1.5 text-ink transition-colors duration-200 hover:bg-brand">Bot WhatsApp + IA</li>
-                  <li class="border-2 border-ink px-3 py-1.5 text-ink transition-colors duration-200 hover:bg-brand">Notificaciones automáticas</li>
+                  <li class="border-2 border-ink px-3 py-1.5 text-ink transition-colors duration-200 hover:bg-brand" data-es="App móvil" data-en="Mobile app">App móvil</li>
+                  <li class="border-2 border-ink px-3 py-1.5 text-ink transition-colors duration-200 hover:bg-brand" data-es="Web" data-en="Web">Web</li>
+                  <li class="border-2 border-ink px-3 py-1.5 text-ink transition-colors duration-200 hover:bg-brand" data-es="Bot WhatsApp + IA" data-en="WhatsApp Bot + AI">Bot WhatsApp + IA</li>
+                  <li class="border-2 border-ink px-3 py-1.5 text-ink transition-colors duration-200 hover:bg-brand" data-es="Notificaciones automáticas" data-en="Automatic notifications">Notificaciones automáticas</li>
                 </ul>
               </div>
               <!-- Mini mockup de celular -->
@@ -501,8 +645,11 @@ const iconPaths = {
               <div class="mx-auto mb-5 grid h-14 w-14 place-items-center bg-brand" aria-hidden="true">
                 <svg class="h-7 w-7 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={iconPaths.rocket} /></svg>
               </div>
-              <p class="font-heading text-3xl uppercase leading-tight text-white">Tu negocio puede ser el siguiente</p>
-              <p class="mx-auto mt-4 max-w-sm font-medium leading-relaxed text-gray-300">
+              <p class="font-heading text-3xl uppercase leading-tight text-white" data-es="Tu negocio puede ser el siguiente" data-en="Your business could be next">Tu negocio puede ser el siguiente</p>
+              <p class="mx-auto mt-4 max-w-sm font-medium leading-relaxed text-gray-300"
+                data-es="Los primeros 10 clientes estrenan precio de lanzamiento y aparecen aquí, en nuestro portafolio."
+                data-en="The first 10 clients get the launch price and show up here, in our portfolio."
+              >
                 Los primeros 10 clientes estrenan precio de lanzamiento y aparecen aquí, en nuestro portafolio.
               </p>
               <a
@@ -510,6 +657,8 @@ const iconPaths = {
                 target="_blank"
                 rel="noopener"
                 class="btn btn-yellow btn-ripple mx-auto mt-7 inline-block rounded-2xl bg-brand px-7 py-3.5 font-bold text-ink"
+                data-es="Quiero mi cupo"
+                data-en="I want my spot"
               >
                 Quiero mi cupo
               </a>
@@ -522,7 +671,7 @@ const iconPaths = {
     <!-- FAQ: bloque amarillo -->
     <section id="preguntas" class="scroll-mt-20 bg-brand px-4 py-24">
       <div class="mx-auto max-w-3xl">
-        <h2 class="reveal bar-under bar-center text-center text-4xl uppercase leading-tight text-ink md:text-6xl">Preguntas frecuentes</h2>
+        <h2 class="reveal bar-under bar-center text-center text-4xl uppercase leading-tight text-ink md:text-6xl" data-es="Preguntas frecuentes" data-en="Frequently asked questions">Preguntas frecuentes</h2>
         <div class="mt-12 space-y-4">
           {
             faqs.map((f, i) => (
@@ -534,14 +683,16 @@ const iconPaths = {
                     aria-expanded="false"
                     aria-controls={`faq-panel-${i}`}
                     id={`faq-trigger-${i}`}
+                    data-es={f.q}
+                    data-en={f.qEN}
                   >
-                    {f.q}
+                    <span data-faq-q>{f.q}</span>
                     <span class="faq-icon text-ink" aria-hidden="true"></span>
                   </button>
                 </h3>
                 <div class="faq-panel" id={`faq-panel-${i}`} role="region" aria-labelledby={`faq-trigger-${i}`}>
                   <div>
-                    <p class="px-6 pb-6 font-medium leading-relaxed text-ink/70">{f.a}</p>
+                    <p class="px-6 pb-6 font-medium leading-relaxed text-ink/70" data-es={f.a} data-en={f.aEN}>{f.a}</p>
                   </div>
                 </div>
               </div>
@@ -555,10 +706,13 @@ const iconPaths = {
     <section class="relative overflow-hidden bg-paper px-4 py-24">
       <p class="pointer-events-none absolute -bottom-14 -right-4 select-none font-heading text-[13rem] leading-none text-ink/5" aria-hidden="true">DO</p>
       <div class="relative mx-auto max-w-4xl text-center">
-        <h2 class="reveal text-4xl uppercase leading-[1.02] text-ink md:text-6xl">
+        <h2 class="reveal text-4xl uppercase leading-[1.02] text-ink md:text-6xl" data-es="Hablemos de tu negocio, sin compromiso" data-en="Let's talk about your business, no strings attached">
           Hablemos de tu negocio, sin compromiso
         </h2>
-        <p class="reveal mx-auto mt-6 max-w-xl font-medium leading-relaxed text-ink/70" style="--d:.1s">
+        <p class="reveal mx-auto mt-6 max-w-xl font-medium leading-relaxed text-ink/70" style="--d:.1s"
+          data-es="Cuéntanos qué necesitas y en menos de 24 horas te mandamos una propuesta con precio cerrado. La cotización es gratis y no te compromete a nada."
+          data-en="Tell us what you need and within 24 hours we'll send you a proposal with a fixed price. The quote is free and comes with no obligation."
+        >
           Cuéntanos qué necesitas y en menos de 24 horas te mandamos una propuesta con precio cerrado.
           La cotización es gratis y no te compromete a nada.
         </p>
@@ -570,7 +724,7 @@ const iconPaths = {
           style="--d:.2s"
         >
           <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={iconPaths.whatsapp}></path></svg>
-          Cotizar gratis por WhatsApp
+          <span data-es="Cotizar gratis por WhatsApp" data-en="Get a free quote on WhatsApp">Cotizar gratis por WhatsApp</span>
         </a>
       </div>
     </section>
@@ -582,10 +736,10 @@ const iconPaths = {
           <span class="grid h-8 w-8 place-items-center bg-brand font-heading text-xs text-ink" aria-hidden="true">DO</span>
           DeOne Labs
         </p>
-        <p class="text-center normal-case">Páginas web · Bots con IA · Correo corporativo · Automatizaciones</p>
+        <p class="text-center normal-case" data-es="Páginas web · Bots con IA · Correo corporativo · Automatizaciones" data-en="Websites · AI Bots · Corporate Email · Automations">Páginas web · Bots con IA · Correo corporativo · Automatizaciones</p>
         <p class="flex items-center gap-2">
           <span class="inline-block h-1.5 w-1.5 bg-brand" aria-hidden="true"></span>
-          Colombia · {new Date().getFullYear()}
+          <span data-es="Colombia" data-en="Colombia">Colombia</span> · {new Date().getFullYear()}
         </p>
       </div>
     </footer>
@@ -595,6 +749,48 @@ const iconPaths = {
       // animaciones del sistema apagadas activa prefers-reduced-motion solo,
       // y eso dejaba la web sin cortina, sin reveals y con scroll cortado.
       const reduced = false;
+
+      /* ---- Idioma (ES/EN) y moneda (COP/USD): toggles persistidos en localStorage ---- */
+      const LANG_KEY = 'do-lang';
+      const CUR_KEY = 'do-currency';
+
+      function applyLang(lang) {
+        document.documentElement.lang = lang === 'en' ? 'en' : 'es';
+        document.querySelectorAll('[data-es]').forEach((el) => {
+          const next = lang === 'en' ? el.dataset.en : el.dataset.es;
+          if (next != null) el.textContent = next;
+        });
+        document.querySelectorAll('[data-es-html]').forEach((el) => {
+          const next = lang === 'en' ? el.dataset.enHtml : el.dataset.esHtml;
+          if (next != null) el.innerHTML = next;
+        });
+        const label = document.querySelector('[data-lang-label]');
+        if (label) label.textContent = lang === 'en' ? 'EN' : 'ES';
+        localStorage.setItem(LANG_KEY, lang);
+      }
+
+      function applyCurrency(cur) {
+        document.querySelectorAll('[data-cop]').forEach((el) => {
+          const next = cur === 'usd' ? el.dataset.usd : el.dataset.cop;
+          if (next != null) el.textContent = next;
+        });
+        const label = document.querySelector('[data-currency-label]');
+        if (label) label.textContent = cur === 'usd' ? 'USD' : 'COP';
+        localStorage.setItem(CUR_KEY, cur);
+      }
+
+      const savedLang = localStorage.getItem(LANG_KEY) || 'es';
+      const savedCur = localStorage.getItem(CUR_KEY) || 'cop';
+      applyLang(savedLang);
+      applyCurrency(savedCur);
+
+      document.getElementById('lang-toggle')?.addEventListener('click', () => {
+        applyLang(document.documentElement.lang === 'en' ? 'es' : 'en');
+      });
+      document.getElementById('currency-toggle')?.addEventListener('click', () => {
+        const current = localStorage.getItem(CUR_KEY) || 'cop';
+        applyCurrency(current === 'usd' ? 'cop' : 'usd');
+      });
 
       /* ---- Navbar: encoge al hacer scroll y se oculta al bajar ---- */
       const nav = document.getElementById('site-nav');
