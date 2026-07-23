@@ -334,7 +334,7 @@ const iconPaths = {
             data-en="Launch promo: special price for the first 10 clients"
           >Promo de lanzamiento: precio especial para los primeros 10 clientes</span>
         </p>
-        <h1 class="reveal mx-auto max-w-5xl text-5xl uppercase leading-[0.95] text-ink sm:text-7xl md:text-8xl" style="--d:.1s">
+        <h1 class="reveal mx-auto max-w-5xl text-5xl uppercase leading-[1.06] text-ink sm:text-7xl md:text-8xl" style="--d:.1s">
           <span data-es="Tu negocio en internet," data-en="Your business online,">Tu negocio en internet,</span>
           <span class="inline-block bg-ink px-3 text-brand" data-es="todo incluido" data-en="all inclusive">todo incluido</span><span data-es=", sin letra pequeña" data-en=", no fine print">, sin letra pequeña</span>
         </h1>
@@ -432,7 +432,7 @@ const iconPaths = {
                   ))}
                 </ul>
                 <a
-                  href={wa(`Hola DeOne Labs, me interesa: ${s.nombre}`)}
+                  href={wa(`Hola DeOne Labs 👋 Me interesa el servicio *${s.nombre}* (${s.precioDisplayCOP}). ¿Me dan más información?`)}
                   target="_blank"
                   rel="noopener"
                   class={`btn btn-dark btn-ripple mt-7 rounded-2xl px-5 py-3 text-center text-sm font-bold ${
@@ -505,7 +505,7 @@ const iconPaths = {
             </ul>
             <div class="reveal mt-9 flex flex-col gap-5 sm:flex-row sm:items-center" style="--d:.2s">
               <a
-                href={wa('Hola, quiero probar el bot con inteligencia artificial')}
+                href={wa('Hola DeOne Labs 👋 Me interesa el *Bot de WhatsApp con IA* ($1.490.000 + $179.000/mes). ¿Me dan más información?')}
                 target="_blank"
                 rel="noopener"
                 class="btn btn-yellow btn-ripple inline-flex items-center justify-center gap-2 rounded-2xl bg-brand px-8 py-4 font-bold text-ink"
@@ -598,7 +598,13 @@ const iconPaths = {
           No vendemos promesas: esta misma tecnología ya atiende usuarios reales.
         </p>
         <div class="mt-14 grid gap-6 md:grid-cols-2">
-          <article class="reveal card-lift relative border-4 border-ink bg-white p-8">
+          <a
+            href="https://terraempleo.co"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="reveal card-lift group relative block border-4 border-ink bg-white p-8"
+            aria-label="Ver TerraEmpleo (se abre en una pestaña nueva)"
+          >
             <div class="relative flex flex-col gap-8 sm:flex-row sm:items-start">
               <div class="min-w-0 flex-1">
                 <h3 class="text-3xl uppercase text-ink">TerraEmpleo</h3>
@@ -617,6 +623,12 @@ const iconPaths = {
                   <li class="border-2 border-ink px-3 py-1.5 text-ink transition-colors duration-200 hover:bg-brand" data-es="Bot WhatsApp + IA" data-en="WhatsApp Bot + AI">Bot WhatsApp + IA</li>
                   <li class="border-2 border-ink px-3 py-1.5 text-ink transition-colors duration-200 hover:bg-brand" data-es="Notificaciones automáticas" data-en="Automatic notifications">Notificaciones automáticas</li>
                 </ul>
+                <span
+                  class="mt-6 inline-flex w-fit items-center gap-2 bg-ink px-4 py-2 text-xs font-extrabold uppercase tracking-widest text-brand transition-transform duration-200 group-hover:translate-x-1"
+                >
+                  <span data-es="Ver TerraEmpleo" data-en="Visit TerraEmpleo">Ver TerraEmpleo</span>
+                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg>
+                </span>
               </div>
               <!-- Mini mockup de celular -->
               <div class="animate-float mx-auto hidden w-32 shrink-0 sm:block" style="--r:3deg" aria-hidden="true">
@@ -639,7 +651,7 @@ const iconPaths = {
                 </div>
               </div>
             </div>
-          </article>
+          </a>
           <article class="reveal card-lift relative flex flex-col justify-center bg-ink p-8 text-center" style="--d:.15s; --sc:#FFD600">
             <div class="relative">
               <div class="mx-auto mb-5 grid h-14 w-14 place-items-center bg-brand" aria-hidden="true">
